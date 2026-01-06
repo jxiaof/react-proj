@@ -19,7 +19,6 @@ import {
   TrendingUp,
   Sparkles,
 } from 'lucide-react';
-import { MainLayout } from '@/shared/components/layout/MainLayout';
 import { PageTransition } from '@/shared/components/PageTransition';
 import { Card, CardContent } from '@/shared/components/ui/Card';
 import { Button } from '@/shared/components/ui/Button';
@@ -27,6 +26,7 @@ import { TestimonialCarousel } from '../components/TestimonialCarousel';
 import { CultureValues } from '../components/CultureValues';
 import { DemoBookingDialog } from '../components/DemoBookingDialog';
 import { Logo } from '@/shared/components/ui/Logo';
+import { ScrollablePageLayout } from '@/shared/components/layout/ScrollablePageLayout';
 
 // 核心功能
 const features = [
@@ -104,7 +104,12 @@ export default function HomePage() {
   return (
     <>
       <PageTransition>
-        <MainLayout>
+        <ScrollablePageLayout 
+          hideBottomNav={false}
+          fullWidth={false}
+          maxWidth="max-w-6xl"
+          contentPadding="px-3 sm:px-4 md:px-6 py-6 md:py-8"
+        >
           <div className="space-y-16 md:space-y-24 lg:space-y-32">
             {/* Hero Section */}
             <section className="relative py-8 md:py-16 lg:py-24">
@@ -442,7 +447,7 @@ export default function HomePage() {
               </div>
             </footer>
           </div>
-        </MainLayout>
+        </ScrollablePageLayout>
       </PageTransition>
 
       {/* Demo Booking Dialog */}

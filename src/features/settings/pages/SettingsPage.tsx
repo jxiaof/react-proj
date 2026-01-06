@@ -1,4 +1,3 @@
-import { MainLayout } from '@/shared/components/layout/MainLayout';
 import { PageTransition } from '@/shared/components/PageTransition';
 import { Button } from '@/shared/components/ui/Button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/shared/components/ui/Card';
@@ -12,6 +11,7 @@ import { cn } from '@/shared/utils/cn';
 import { useState } from 'react';
 import { ModelEditDialog } from '../components/ModelEditDialog';
 import { ModelTestDialog } from '../components/ModelTestDialog';
+import { ScrollablePageLayout } from '@/shared/components/layout/ScrollablePageLayout';
 
 // Theme options
 const themeOptions = [
@@ -136,8 +136,13 @@ export default function SettingsPage() {
 
     return (
         <PageTransition>
-            <MainLayout>
-                <div className="space-y-6 md:space-y-8 pb-8">
+            <ScrollablePageLayout 
+              hideBottomNav={false}
+              fullWidth={false}
+              maxWidth="max-w-4xl"
+              contentPadding="px-3 sm:px-4 md:px-6 py-6 md:py-8"
+            >
+                <div className="space-y-6 md:space-y-8">
                     {/* Header */}
                     <div className="animate-fadeInDown space-y-2">
                         <h1 className="text-2xl md:text-4xl font-bold">设置</h1>
@@ -412,44 +417,44 @@ export default function SettingsPage() {
                         </CardContent>
                     </Card>
                 </div>
+            </ScrollablePageLayout>
 
-                {/* Add Model Dialog */}
-                <AddModelDialog 
-                  open={showAddModelDialog} 
-                  onOpenChange={setShowAddModelDialog}
-                  onConfirm={handleAddModel}
-                />
+            {/* Add Model Dialog */}
+            <AddModelDialog 
+              open={showAddModelDialog} 
+              onOpenChange={setShowAddModelDialog}
+              onConfirm={handleAddModel}
+            />
 
-                {/* Edit Model Dialog */}
-                <ModelEditDialog
-                  open={!!editingModel}
-                  onOpenChange={() => setEditingModel(null)}
-                  onConfirm={handleEditModel}
-                  model={editingModel}
-                />
+            {/* Edit Model Dialog */}
+            <ModelEditDialog
+              open={!!editingModel}
+              onOpenChange={() => setEditingModel(null)}
+              onConfirm={handleEditModel}
+              model={editingModel}
+            />
 
-                {/* Test Model Dialog */}
-                {testingModel && (
-                  <ModelTestDialog
-                    open={!!testingModel}
-                    onOpenChange={() => setTestingModel(null)}
-                    modelName={testingModel.name}
-                    modelId={testingModel.id}
-                  />
-                )}
+            {/* Test Model Dialog */}
+            {testingModel && (
+              <ModelTestDialog
+                open={!!testingModel}
+                onOpenChange={() => setTestingModel(null)}
+                modelName={testingModel.name}
+                modelId={testingModel.id}
+              />
+            )}
 
-                {/* Delete Confirmation Dialog */}
-                <ConfirmDialog
-                  open={!!deleteConfirm}
-                  title="删除 AI 模型"
-                  description={`确定要删除模型 "${deleteConfirm?.name}" 吗？此操作无法撤销。`}
-                  confirmText="删除"
-                  cancelText="取消"
-                  isDangerous
-                  onConfirm={() => deleteConfirm && handleDeleteModel(deleteConfirm.id)}
-                  onCancel={() => setDeleteConfirm(null)}
-                />
-            </MainLayout>
+            {/* Delete Confirmation Dialog */}
+            <ConfirmDialog
+              open={!!deleteConfirm}
+              title="删除 AI 模型"
+              description={`确定要删除模型 "${deleteConfirm?.name}" 吗？此操作无法撤销。`}
+              confirmText="删除"
+              cancelText="取消"
+              isDangerous
+              onConfirm={() => deleteConfirm && handleDeleteModel(deleteConfirm.id)}
+              onCancel={() => setDeleteConfirm(null)}
+            />
         </PageTransition>
     );
 }
