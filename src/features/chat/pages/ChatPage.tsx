@@ -249,90 +249,93 @@ export default function ChatPage() {
               </div>
             </div>
 
-            {/* Messages Container */}
-            <div
-              ref={messagesContainerRef}
-              className="flex-1 overflow-y-auto min-h-0 flex flex-col"
-            >
-              {!conversationId ? (
-                <div className="flex flex-1 items-center justify-center p-4">
-                  <div className="text-center max-w-sm space-y-4">
-                    <div className="inline-flex items-center justify-center h-12 w-12 rounded-lg bg-primary/10">
-                      <Plus className="h-6 w-6 text-primary" />
-                    </div>
-                    <h3 className="text-lg font-semibold">创建新对话</h3>
-                    <p className="text-sm text-muted-foreground">
-                      选择一个对话或创建新的对话来开始提问
-                    </p>
-                    <Button onClick={handleNewChat} disabled={createConversation.isPending}>
-                      新建对话
-                    </Button>
-                  </div>
-                </div>
-              ) : loadingMessages ? (
-                <div className="flex justify-center items-center py-12">
-                  <LoadingSpinner size="sm" />
-                </div>
-              ) : messages.length === 0 ? (
-                <div className="flex flex-1 items-center justify-center p-4">
-                  <div className="text-center">
-                    <p className="text-sm text-muted-foreground">开始提问吧</p>
-                  </div>
-                </div>
-              ) : (
-                <div className="space-y-4 p-3 md:p-4 flex flex-col">
-                  {messages.map((msg, idx) => (
-                    <div
-                      key={msg.id}
-                      className={cn(
-                        'flex animate-fadeInUp gap-3 md:gap-4',
-                        msg.role === 'user' ? 'justify-end' : 'justify-start'
-                      )}
-                      style={{ animationDelay: `${idx * 40}ms` }}
-                    >
-                      {msg.role === 'assistant' && (
-                        <div className="h-7 md:h-8 w-7 md:w-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
-                          <div className="h-4 md:h-5 w-4 md:w-5 rounded-full bg-gradient-to-br from-primary to-primary/80" />
-                        </div>
-                      )}
-                      <div
-                        className={cn(
-                          'max-w-xs lg:max-w-md rounded-lg px-3 md:px-4 py-2 md:py-3 text-sm leading-relaxed break-words',
-                          msg.role === 'user'
-                            ? 'bg-primary text-primary-foreground'
-                            : 'bg-muted text-foreground'
-                        )}
-                      >
-                        {msg.content}
+            {/* Messages Container & Input Wrapper */}
+            <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
+              {/* Messages Content */}
+              <div
+                ref={messagesContainerRef}
+                className="flex-1 overflow-y-auto min-h-0 flex flex-col"
+              >
+                {!conversationId ? (
+                  <div className="flex flex-1 items-center justify-center p-4">
+                    <div className="text-center max-w-sm space-y-4">
+                      <div className="inline-flex items-center justify-center h-12 w-12 rounded-lg bg-primary/10">
+                        <Plus className="h-6 w-6 text-primary" />
                       </div>
-                      {msg.role === 'user' && (
-                        <div className="h-7 md:h-8 w-7 md:w-8 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0 mt-1">
-                          <span className="text-xs font-medium text-primary">U</span>
-                        </div>
-                      )}
+                      <h3 className="text-lg font-semibold">创建新对话</h3>
+                      <p className="text-sm text-muted-foreground">
+                        选择一个对话或创建新的对话来开始提问
+                      </p>
+                      <Button onClick={handleNewChat} disabled={createConversation.isPending}>
+                        新建对话
+                      </Button>
                     </div>
-                  ))}
-                  <div ref={messagesEndRef} />
+                  </div>
+                ) : loadingMessages ? (
+                  <div className="flex justify-center items-center py-12">
+                    <LoadingSpinner size="sm" />
+                  </div>
+                ) : messages.length === 0 ? (
+                  <div className="flex flex-1 items-center justify-center p-4">
+                    <div className="text-center">
+                      <p className="text-sm text-muted-foreground">开始提问吧</p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="space-y-4 p-3 md:p-4 flex flex-col">
+                    {messages.map((msg, idx) => (
+                      <div
+                        key={msg.id}
+                        className={cn(
+                          'flex animate-fadeInUp gap-3 md:gap-4',
+                          msg.role === 'user' ? 'justify-end' : 'justify-start'
+                        )}
+                        style={{ animationDelay: `${idx * 40}ms` }}
+                      >
+                        {msg.role === 'assistant' && (
+                          <div className="h-7 md:h-8 w-7 md:w-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
+                            <div className="h-4 md:h-5 w-4 md:w-5 rounded-full bg-gradient-to-br from-primary to-primary/80" />
+                          </div>
+                        )}
+                        <div
+                          className={cn(
+                            'max-w-xs lg:max-w-md rounded-lg px-3 md:px-4 py-2 md:py-3 text-sm leading-relaxed break-words',
+                            msg.role === 'user'
+                              ? 'bg-primary text-primary-foreground'
+                              : 'bg-muted text-foreground'
+                          )}
+                        >
+                          {msg.content}
+                        </div>
+                        {msg.role === 'user' && (
+                          <div className="h-7 md:h-8 w-7 md:w-8 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0 mt-1">
+                            <span className="text-xs font-medium text-primary">U</span>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                    <div ref={messagesEndRef} />
+                  </div>
+                )}
+              </div>
+
+              {/* Input Area - Sticky at Bottom */}
+              {conversationId && (
+                <div className="flex-shrink-0 border-t border-border/20 bg-background pt-3 md:pt-4 pb-3 md:pb-4 px-3 md:px-4">
+                  <ChatInput
+                    ref={chatInputRef}
+                    value={inputValue}
+                    onChange={setInputValue}
+                    onSend={handleSendMessage}
+                    disabled={sendMessage.isPending || !conversationId}
+                    placeholder="输入您的问题..."
+                    attachments={attachments}
+                    onAttachFile={(files) => setAttachments([...attachments, ...files])}
+                    onRemoveAttachment={(fileId) => setAttachments(attachments.filter((f) => f.id !== fileId))}
+                  />
                 </div>
               )}
             </div>
-
-            {/* Input Area */}
-            {conversationId && (
-              <div className="flex-shrink-0 border-t border-border/30 bg-background/95 backdrop-blur-sm p-3 md:p-4">
-                <ChatInput
-                  ref={chatInputRef}
-                  value={inputValue}
-                  onChange={setInputValue}
-                  onSend={handleSendMessage}
-                  disabled={sendMessage.isPending || !conversationId}
-                  placeholder="输入您的问题..."
-                  attachments={attachments}
-                  onAttachFile={(files) => setAttachments([...attachments, ...files])}
-                  onRemoveAttachment={(fileId) => setAttachments(attachments.filter((f) => f.id !== fileId))}
-                />
-              </div>
-            )}
           </div>
         </div>
 
