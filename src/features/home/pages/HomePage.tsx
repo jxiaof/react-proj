@@ -353,7 +353,7 @@ export default function HomePage() {
             </section>
 
             {/* Footer */}
-            <footer className="border-t border-border/30 pt-12 md:pt-16 pb-4 md:pb-8 animate-fadeInUp" style={{ animationDelay: '2080ms' }}>
+            <footer className="border-t border-border/30 pt-12 md:pt-16 animate-fadeInUp" style={{ animationDelay: '2080ms' }}>
               <div className="space-y-8 md:space-y-12">
                 <div className="grid gap-6 md:gap-8 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                   {/* Company Info */}
