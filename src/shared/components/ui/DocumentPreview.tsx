@@ -227,13 +227,15 @@ export function DocumentPreview({
       </div>
 
       {/* Content - 占据所有剩余空间 */}
-      <div className="flex-1 overflow-y-auto overflow-x-hidden min-h-0 bg-background">
+      <div className="flex-1 overflow-auto min-h-0 bg-background">
         {docType === 'code' ? (
-          <pre className="p-3 md:p-5 text-xs md:text-sm font-mono text-foreground leading-relaxed whitespace-pre-wrap break-words h-full">
+          // 代码块：最小宽度 + 左右滚动
+          <pre className="p-3 md:p-5 text-xs md:text-sm font-mono text-foreground leading-relaxed whitespace-pre h-full inline-block min-w-full md:min-w-[800px]">
             <code>{content}</code>
           </pre>
         ) : (
-          <div className="p-3 md:p-5 text-xs md:text-sm leading-relaxed h-full">
+          // 文本：最小宽度 + 左右滚动
+          <div className="p-3 md:p-5 text-xs md:text-sm leading-relaxed h-full inline-block min-w-full md:min-w-[600px]">
             <div className="whitespace-pre-wrap break-words text-foreground text-justify">
               {content}
             </div>
