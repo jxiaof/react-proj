@@ -23,6 +23,7 @@ export default function ChatPage() {
   const [searchValue, setSearchValue] = useState('');
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState<{ id: string; title: string } | null>(null);
+  const [attachments, setAttachments] = useState<Array<{ id: string; name: string; type: 'file' | 'document' | 'folder'; size?: number }>>([]);
 
   // Refs
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -326,6 +327,9 @@ export default function ChatPage() {
                   onSend={handleSendMessage}
                   disabled={sendMessage.isPending || !conversationId}
                   placeholder="输入您的问题..."
+                  attachments={attachments}
+                  onAttachFile={(files) => setAttachments([...attachments, ...files])}
+                  onRemoveAttachment={(fileId) => setAttachments(attachments.filter((f) => f.id !== fileId))}
                 />
               </div>
             )}
