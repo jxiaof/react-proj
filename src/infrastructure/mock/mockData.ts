@@ -249,6 +249,37 @@ Q3 showed significant improvement in all key areas, with particularly strong gro
   ],
 };
 
+// Mock AI Providers
+export const mockProviders = [
+  {
+    id: '1',
+    name: 'OpenAI GPT-4o',
+    model: 'gpt-4o',
+    description: '最强大的通用模型，擅长复杂推理和代码生成',
+    isDefault: true,
+    status: 'active' as const,
+    icon: '🤖',
+  },
+  {
+    id: '2',
+    name: 'Claude 3.5 Sonnet',
+    model: 'claude-3-5-sonnet',
+    description: '高效的推理模型，平衡性能和成本',
+    isDefault: false,
+    status: 'active' as const,
+    icon: '🧠',
+  },
+  {
+    id: '3',
+    name: 'Google Gemini Pro',
+    model: 'gemini-pro',
+    description: '多模态模型，支持文本和图像处理',
+    isDefault: false,
+    status: 'active' as const,
+    icon: '✨',
+  },
+];
+
 // Helper to generate new IDs
 let idCounter = 100;
 export const generateId = (prefix: string) => `${prefix}-${++idCounter}`;
