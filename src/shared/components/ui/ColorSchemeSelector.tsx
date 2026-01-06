@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { useThemeStore, type ColorSchemeKey } from '@/store/themeStore';
+import { Palette } from 'lucide-react';
 import { cn } from '@/shared/utils/cn';
 
 const colorSchemes: Array<{ key: ColorSchemeKey; color: string; label: string }> = [
@@ -52,20 +53,16 @@ export function ColorSchemeSelector() {
 
 	return (
 		<div className="relative">
-			{/* Trigger Button - 仅显示颜色圆点，无边框 */}
+			{/* Trigger Button - 调色板图标 */}
 			<button
 				ref={triggerRef}
 				onClick={() => setIsOpen(!isOpen)}
-				className="inline-flex items-center justify-center h-9 w-9 rounded-md transition-all duration-200 hover:scale-110 active:scale-95 group"
+				className="inline-flex items-center justify-center h-9 w-9 rounded-md hover:bg-accent transition-all duration-200 hover:scale-110 active:scale-95 group"
 				title={`切换主题色 (当前: ${currentLabel})`}
 				aria-label="主题色选择器"
 				aria-expanded={isOpen}
 			>
-				{/* 颜色圆点作为图标 */}
-				<div
-					className="h-5 w-5 rounded-full transition-all shadow-sm group-hover:shadow-md"
-					style={{ backgroundColor: currentColor }}
-				/>
+				<Palette className="h-5 w-5 text-foreground group-hover:text-primary transition-colors" />
 			</button>
 
 			{/* Dropdown Menu - 两行四列布局 */}

@@ -3,8 +3,9 @@ import { PageTransition } from '@/shared/components/PageTransition';
 import { Button } from '@/shared/components/ui/Button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/shared/components/ui/Card';
 import { Switch } from '@/shared/components/ui/Switch';
-import { Plus, Moon, Sun, Monitor, Zap, Shield, Bell, Palette, Palette as PaletteIcon } from 'lucide-react';
+import { Plus, Moon, Sun, Monitor, Zap, Shield, Bell, Palette } from 'lucide-react';
 import { useThemeStore, type ThemeMode, type ColorSchemeKey } from '@/store/themeStore';
+import { AddModelDialog, type ModelConfig } from '../components/AddModelDialog';
 import { cn } from '@/shared/utils/cn';
 import { useState } from 'react';
 
@@ -48,6 +49,7 @@ const colorSchemesList: Array<{ key: ColorSchemeKey; color: string; label: strin
 
 export default function SettingsPage() {
     const { theme, setTheme, colorScheme, setColorScheme } = useThemeStore();
+    const [showAddModelDialog, setShowAddModelDialog] = useState(false);
     
     // 通知状态
     const [notifications, setNotifications] = useState({
@@ -55,6 +57,28 @@ export default function SettingsPage() {
       emailUpdates: true,
       dailySummary: false,
     });
+
+    const [providers, setProviders] = useState(mockProviders);
+
+    const handleAddModel = (data: ModelConfig) => {
+      const newModel = {
+        id: String(providers.length + 1),
+        name: data.name,
+        model: data.model,
+        isDefault: data.isDefault,
+        status: 'active' as const,
+        icon: '🤖',
+        description: data.description,
+      };
+
+      if (data.isDefault) {
+        setProviders(prev =>
+          prev.map(p => ({ ...p, isDefault: false })).concat(newModel)
+        );
+      } else {
+        setProviders(prev => [...prev, newModel]);
+      }
+    };
 
     return (
         <PageTransition>
@@ -76,13 +100,17 @@ export default function SettingsPage() {
                                 </div>
                                 <p className="text-xs text-muted-foreground">选择您偏好的 AI 模型</p>
                             </div>
-                            <Button size="sm" className="flex-shrink-0">
+                            <Button 
+                              size="sm" 
+                              className="flex-shrink-0"
+                              onClick={() => setShowAddModelDialog(true)}
+                            >
                                 <Plus className="h-4 w-4 mr-2" />
                                 添加模型
                             </Button>
                         </CardHeader>
                         <CardContent className="space-y-3">
-                            {mockProviders.map((provider, idx) => (
+                            {providers.map((provider, idx) => (
                                 <div
                                     key={provider.id}
                                     className="group flex flex-col md:flex-row md:items-start md:justify-between rounded-lg border border-border/50 p-3 md:p-4 transition-all duration-300 hover:border-primary/50 hover:bg-primary/5 animate-fadeInUp"
@@ -201,7 +229,7 @@ export default function SettingsPage() {
                             {/* Color Scheme Selection */}
                             <div className="space-y-3 border-t pt-6">
                                 <h4 className="text-xs md:text-sm font-semibold flex items-center gap-2">
-                                    <PaletteIcon className="h-4 w-4 text-primary" />
+                                    <Palette className="h-4 w-4 text-primary" />
                                     配色方案
                                 </h4>
 
@@ -236,18 +264,18 @@ export default function SettingsPage() {
                         </CardContent>
                     </Card>
 
-					{/* Notification Settings */}
-					<Card className="animate-fadeInUp" style={{ animationDelay: '320ms' }}>
-						<CardHeader className="space-y-1">
-							<div className="flex items-center gap-2">
-								<Bell className="h-5 w-5 text-primary" />
-								<CardTitle className="text-base md:text-lg">通知设置</CardTitle>
-							</div>
-							<p className="text-xs text-muted-foreground">管理应用通知和提醒</p>
-						</CardHeader>
-						<CardContent className="space-y-3">
-							{/* 文档处理完成通知 */}
-							<div
+                    {/* Notification Settings */}
+                    <Card className="animate-fadeInUp" style={{ animationDelay: '320ms' }}>
+                        <CardHeader className="space-y-1">
+                            <div className="flex items-center gap-2">
+                                <Bell className="h-5 w-5 text-primary" />
+                                <CardTitle className="text-base md:text-lg">通知设置</CardTitle>
+                            </div>
+                            <p className="text-xs text-muted-foreground">管理应用通知和提醒</p>
+                        </CardHeader>
+                        <CardContent className="space-y-3">
+                            {/* 文档处理完成通知 */}
+                            <div
 							  className={cn(
 								'group flex items-center justify-between p-4 rounded-lg border transition-all duration-300 cursor-pointer',
 								'hover:border-primary/50 hover:bg-primary/5',
@@ -339,8 +367,15 @@ export default function SettingsPage() {
 							  />
 							</div>
 						</CardContent>
-					</Card>
+                    </Card>
                 </div>
+
+                {/* Add Model Dialog */}
+                <AddModelDialog 
+                  open={showAddModelDialog} 
+                  onOpenChange={setShowAddModelDialog}
+                  onConfirm={handleAddModel}
+                />
             </MainLayout>
         </PageTransition>
     );

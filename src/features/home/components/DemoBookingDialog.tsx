@@ -61,14 +61,14 @@ export function DemoBookingDialog({ open, onOpenChange }: DemoBookingDialogProps
 
       {/* Dialog */}
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
-        <Card className="w-full max-w-md pointer-events-auto animate-scaleIn" style={{ animationDelay: '100ms' }}>
+        <Card className="w-full max-w-md pointer-events-auto animate-scaleIn bg-card text-card-foreground" style={{ animationDelay: '100ms' }}>
           {/* Header */}
-          <div className="flex items-center justify-between p-6 border-b">
+          <div className="flex items-center justify-between p-6 border-b border-border/30">
             <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-lg bg-gradient-to-br from-green-400 to-green-500 flex items-center justify-center">
-                <Calendar className="h-6 w-6 text-white" />
+              <div className="h-10 w-10 rounded-lg bg-gradient-to-br from-primary/40 to-primary/30 flex items-center justify-center">
+                <Calendar className="h-6 w-6 text-primary" />
               </div>
-              <h2 className="text-xl font-bold">预约演示</h2>
+              <h2 className="text-xl font-bold text-foreground">预约演示</h2>
             </div>
             <button
               onClick={() => onOpenChange(false)}
@@ -79,7 +79,7 @@ export function DemoBookingDialog({ open, onOpenChange }: DemoBookingDialogProps
           </div>
 
           {/* Content */}
-          <div className="p-6">
+          <div className="p-6 bg-background/50">
             {submitSuccess ? (
               <div className="text-center space-y-4 animate-fadeInUp">
                 <div className="h-16 w-16 rounded-full bg-green-100 flex items-center justify-center mx-auto">
@@ -106,7 +106,7 @@ export function DemoBookingDialog({ open, onOpenChange }: DemoBookingDialogProps
               <form onSubmit={handleSubmit} className="space-y-4">
                 {/* Name */}
                 <div className="space-y-2 animate-fadeInUp" style={{ animationDelay: '100ms' }}>
-                  <label className="text-sm font-medium flex items-center gap-2">
+                  <label className="text-sm font-medium flex items-center gap-2 text-foreground">
                     <User className="h-4 w-4 text-primary" />
                     姓名 *
                   </label>
@@ -117,13 +117,13 @@ export function DemoBookingDialog({ open, onOpenChange }: DemoBookingDialogProps
                     onChange={handleChange}
                     placeholder="请输入您的姓名"
                     required
-                    className="w-full px-4 py-2 rounded-lg border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                    className="w-full px-4 py-2 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
                   />
                 </div>
 
                 {/* Email */}
                 <div className="space-y-2 animate-fadeInUp" style={{ animationDelay: '150ms' }}>
-                  <label className="text-sm font-medium flex items-center gap-2">
+                  <label className="text-sm font-medium flex items-center gap-2 text-foreground">
                     <Mail className="h-4 w-4 text-primary" />
                     邮箱 *
                   </label>
@@ -134,13 +134,13 @@ export function DemoBookingDialog({ open, onOpenChange }: DemoBookingDialogProps
                     onChange={handleChange}
                     placeholder="请输入您的邮箱"
                     required
-                    className="w-full px-4 py-2 rounded-lg border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                    className="w-full px-4 py-2 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
                   />
                 </div>
 
                 {/* Phone */}
                 <div className="space-y-2 animate-fadeInUp" style={{ animationDelay: '200ms' }}>
-                  <label className="text-sm font-medium flex items-center gap-2">
+                  <label className="text-sm font-medium flex items-center gap-2 text-foreground">
                     <Phone className="h-4 w-4 text-primary" />
                     电话 *
                   </label>
@@ -151,13 +151,13 @@ export function DemoBookingDialog({ open, onOpenChange }: DemoBookingDialogProps
                     onChange={handleChange}
                     placeholder="请输入您的电话"
                     required
-                    className="w-full px-4 py-2 rounded-lg border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                    className="w-full px-4 py-2 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
                   />
                 </div>
 
                 {/* Company */}
                 <div className="space-y-2 animate-fadeInUp" style={{ animationDelay: '250ms' }}>
-                  <label className="text-sm font-medium flex items-center gap-2">
+                  <label className="text-sm font-medium flex items-center gap-2 text-foreground">
                     <Building2 className="h-4 w-4 text-primary" />
                     公司名称
                   </label>
@@ -167,7 +167,7 @@ export function DemoBookingDialog({ open, onOpenChange }: DemoBookingDialogProps
                     value={formData.company}
                     onChange={handleChange}
                     placeholder="请输入您的公司名称"
-                    className="w-full px-4 py-2 rounded-lg border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                    className="w-full px-4 py-2 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
                   />
                 </div>
 
@@ -183,6 +183,7 @@ export function DemoBookingDialog({ open, onOpenChange }: DemoBookingDialogProps
                     variant="outline"
                     className="flex-1 transition-all"
                     onClick={() => onOpenChange(false)}
+                    disabled={isSubmitting}
                   >
                     取消
                   </Button>
