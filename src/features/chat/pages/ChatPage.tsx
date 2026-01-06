@@ -3,11 +3,12 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { InteractivePageLayout } from '@/shared/components/layout/InteractivePageLayout';
 import { PageTransition } from '@/shared/components/PageTransition';
 import { Button } from '@/shared/components/ui/Button';
+import { Sheet, SheetContent, SheetTrigger } from '@/shared/components/ui/Sheet';
 import { LoadingSpinner } from '@/shared/components/feedback/LoadingSpinner';
 import { ChatInput } from '../components/ChatInput';
 import { ChatSidebar } from '../components/ChatSidebar';
 import { ConfirmDialog } from '@/shared/components/ui/ConfirmDialog';
-import { Plus, Menu, X, Star } from 'lucide-react';
+import { Plus, Menu, Star } from 'lucide-react';
 import { useConversations, useCreateConversation, useDeleteConversation } from '@/features/conversations/hooks/useConversations';
 import { useMessages, useSendMessage } from '../hooks/useChat';
 import { useChatStore } from '@/store/chatStore';
@@ -22,7 +23,6 @@ export default function ChatPage() {
   const [searchValue, setSearchValue] = useState('');
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState<{ id: string; title: string } | null>(null);
-  const [attachments, setAttachments] = useState<Array<{ id: string; name: string; type: 'file' | 'document' | 'folder'; size?: number }>>([]);
 
   // Refs
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -150,10 +150,9 @@ export default function ChatPage() {
 
   return (
     <PageTransition>
-      {/* 关键：InteractivePageLayout 会处理所有高度计算 */}
-      <InteractivePageLayout
-        hideBottomNav={false}
-        sidebar={
+      <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
+        {/* H5 Sidebar - Sheet Modal */}
+        <SheetContent side="left" className="w-full sm:w-72 p-0">
           <ChatSidebar
             conversations={conversations}
             isLoading={loadingConversations}
@@ -161,154 +160,175 @@ export default function ChatPage() {
             searchValue={searchValue}
             onSearchChange={setSearchValue}
             onCreateNew={handleNewChat}
-            onSelectConversation={(id) => navigate(`/chat/${id}`)}
+            onSelectConversation={(id) => {
+              navigate(`/chat/${id}`);
+              setSidebarOpen(false);
+            }}
             onFavorite={handleFavorite}
             onDelete={handleDeleteConversation}
             onClose={() => setSidebarOpen(false)}
           />
-        }
-        header={
-          <div className="flex items-center justify-between px-3 md:px-4 py-3">
-            {/* Header content - 保持简洁，不要超过 56px */}
-            <div className="flex items-center gap-3 flex-1 min-w-0">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="md:hidden h-9 w-9"
-                onClick={() => setSidebarOpen(!sidebarOpen)}
-                title="切换侧边栏 (Cmd+K)"
-              >
-                {sidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-              </Button>
+        </SheetContent>
 
-              <div className="min-w-0">
-                <h2 className="text-sm md:text-base font-semibold truncate text-foreground">
-                  {activeConversation?.title || '新对话'}
-                </h2>
-                <p className="text-xs text-muted-foreground">AI 助手</p>
+        {/* Main Chat Area */}
+        <InteractivePageLayout
+          hideBottomNav={false}
+          sidebar={
+            <ChatSidebar
+              conversations={conversations}
+              isLoading={loadingConversations}
+              activeConversationId={conversationId}
+              searchValue={searchValue}
+              onSearchChange={setSearchValue}
+              onCreateNew={handleNewChat}
+              onSelectConversation={(id) => navigate(`/chat/${id}`)}
+              onFavorite={handleFavorite}
+              onDelete={handleDeleteConversation}
+              onClose={() => setSidebarOpen(false)}
+            />
+          }
+          header={
+            <div className="flex items-center justify-between px-3 md:px-4 py-3">
+              {/* Left Section */}
+              <div className="flex items-center gap-3 flex-1 min-w-0">
+                <SheetTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="md:hidden h-9 w-9"
+                    title="切换侧边栏 (Cmd+K)"
+                  >
+                    <Menu className="h-5 w-5" />
+                  </Button>
+                </SheetTrigger>
+
+                <div className="min-w-0">
+                  <h2 className="text-sm md:text-base font-semibold truncate text-foreground">
+                    {activeConversation?.title || '新对话'}
+                  </h2>
+                  <p className="text-xs text-muted-foreground">AI 助手</p>
+                </div>
               </div>
-            </div>
 
-            <div className="flex items-center gap-2 flex-shrink-0">
-              {conversationId && (
+              {/* Right Section */}
+              <div className="flex items-center gap-2 flex-shrink-0">
+                {conversationId && (
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-9 w-9"
+                    onClick={() => handleFavorite(conversationId)}
+                    title={isFavorite(conversationId) ? '取消收藏' : '收藏对话'}
+                  >
+                    <Star
+                      className={cn(
+                        'h-5 w-5',
+                        isFavorite(conversationId)
+                          ? 'fill-amber-400 text-amber-400'
+                          : 'text-muted-foreground'
+                      )}
+                    />
+                  </Button>
+                )}
+
                 <Button
                   variant="ghost"
                   size="icon"
                   className="h-9 w-9"
-                  onClick={() => handleFavorite(conversationId)}
-                  title={isFavorite(conversationId) ? '取消收藏' : '收藏对话'}
+                  onClick={handleNewChat}
+                  disabled={createConversation.isPending}
+                  title="新建对话"
                 >
-                  <Star
-                    className={cn(
-                      'h-5 w-5',
-                      isFavorite(conversationId)
-                        ? 'fill-amber-400 text-amber-400'
-                        : 'text-muted-foreground'
-                    )}
-                  />
-                </Button>
-              )}
-
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-9 w-9"
-                onClick={handleNewChat}
-                disabled={createConversation.isPending}
-                title="新建对话"
-              >
-                {createConversation.isPending ? (
-                  <div className="h-4 w-4 animate-spin border-2 border-primary border-t-transparent rounded-full" />
-                ) : (
-                  <Plus className="h-5 w-5" />
-                )}
-              </Button>
-            </div>
-          </div>
-        }
-        content={
-          // 内容区域由 InteractivePageLayout 处理滚动
-          !conversationId ? (
-            // 空状态
-            <div className="flex flex-1 items-center justify-center p-4">
-              <div className="text-center max-w-sm space-y-4">
-                <div className="inline-flex items-center justify-center h-12 w-12 rounded-lg bg-primary/10">
-                  <Plus className="h-6 w-6 text-primary" />
-                </div>
-                <h3 className="text-lg font-semibold">创建新对话</h3>
-                <p className="text-sm text-muted-foreground">
-                  选择一个对话或创建新的对话来开始提问
-                </p>
-                <Button onClick={handleNewChat} disabled={createConversation.isPending}>
-                  新建对话
+                  {createConversation.isPending ? (
+                    <div className="h-4 w-4 animate-spin border-2 border-primary border-t-transparent rounded-full" />
+                  ) : (
+                    <Plus className="h-5 w-5" />
+                  )}
                 </Button>
               </div>
             </div>
-          ) : loadingMessages ? (
-            <div className="flex justify-center items-center py-12">
-              <LoadingSpinner size="sm" />
-            </div>
-          ) : messages.length === 0 ? (
-            <div className="flex flex-1 items-center justify-center p-4">
-              <div className="text-center">
-                <p className="text-sm text-muted-foreground">开始提问吧</p>
-              </div>
-            </div>
-          ) : (
-            // 消息列表 - 这里会自动滚动
-            <div className="space-y-4 p-3 md:p-4">
-              {messages.map((msg, idx) => (
-                <div
-                  key={msg.id}
-                  className={cn(
-                    'flex animate-fadeInUp gap-3 md:gap-4',
-                    msg.role === 'user' ? 'justify-end' : 'justify-start'
-                  )}
-                  style={{ animationDelay: `${idx * 40}ms` }}
-                >
-                  {msg.role === 'assistant' && (
-                    <div className="h-7 md:h-8 w-7 md:w-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
-                      <div className="h-4 md:h-5 w-4 md:w-5 rounded-full bg-gradient-to-br from-primary to-primary/80" />
-                    </div>
-                  )}
-                  <div
-                    className={cn(
-                      'max-w-xs lg:max-w-md rounded-lg px-3 md:px-4 py-2 md:py-3 text-sm leading-relaxed break-words',
-                      msg.role === 'user'
-                        ? 'bg-primary text-primary-foreground'
-                        : 'bg-muted text-foreground'
-                    )}
-                  >
-                    {msg.content}
+          }
+          content={
+            !conversationId ? (
+              <div className="flex flex-1 items-center justify-center p-4">
+                <div className="text-center max-w-sm space-y-4">
+                  <div className="inline-flex items-center justify-center h-12 w-12 rounded-lg bg-primary/10">
+                    <Plus className="h-6 w-6 text-primary" />
                   </div>
-                  {msg.role === 'user' && (
-                    <div className="h-7 md:h-8 w-7 md:w-8 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0 mt-1">
-                      <span className="text-xs font-medium text-primary">U</span>
-                    </div>
-                  )}
+                  <h3 className="text-lg font-semibold">创建新对话</h3>
+                  <p className="text-sm text-muted-foreground">
+                    选择一个对话或创建新的对话来开始提问
+                  </p>
+                  <Button onClick={handleNewChat} disabled={createConversation.isPending}>
+                    新建对话
+                  </Button>
                 </div>
-              ))}
-              <div ref={messagesEndRef} />
-            </div>
-          )
-        }
-        footer={
-          conversationId && (
-            <div className="p-3 md:p-4">
-              <ChatInput
-                ref={chatInputRef}
-                value={inputValue}
-                onChange={setInputValue}
-                onSend={handleSendMessage}
-                disabled={sendMessage.isPending || !conversationId}
-                placeholder="输入您的问题..."
-              />
-            </div>
-          )
-        }
-      />
+              </div>
+            ) : loadingMessages ? (
+              <div className="flex justify-center items-center py-12">
+                <LoadingSpinner size="sm" />
+              </div>
+            ) : messages.length === 0 ? (
+              <div className="flex flex-1 items-center justify-center p-4">
+                <div className="text-center">
+                  <p className="text-sm text-muted-foreground">开始提问吧</p>
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-4 p-3 md:p-4">
+                {messages.map((msg, idx) => (
+                  <div
+                    key={msg.id}
+                    className={cn(
+                      'flex animate-fadeInUp gap-3 md:gap-4',
+                      msg.role === 'user' ? 'justify-end' : 'justify-start'
+                    )}
+                    style={{ animationDelay: `${idx * 40}ms` }}
+                  >
+                    {msg.role === 'assistant' && (
+                      <div className="h-7 md:h-8 w-7 md:w-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
+                        <div className="h-4 md:h-5 w-4 md:w-5 rounded-full bg-gradient-to-br from-primary to-primary/80" />
+                      </div>
+                    )}
+                    <div
+                      className={cn(
+                        'max-w-xs lg:max-w-md rounded-lg px-3 md:px-4 py-2 md:py-3 text-sm leading-relaxed break-words',
+                        msg.role === 'user'
+                          ? 'bg-primary text-primary-foreground'
+                          : 'bg-muted text-foreground'
+                      )}
+                    >
+                      {msg.content}
+                    </div>
+                    {msg.role === 'user' && (
+                      <div className="h-7 md:h-8 w-7 md:w-8 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0 mt-1">
+                        <span className="text-xs font-medium text-primary">U</span>
+                      </div>
+                    )}
+                  </div>
+                ))}
+                <div ref={messagesEndRef} />
+              </div>
+            )
+          }
+          footer={
+            conversationId && (
+              <div className="w-full px-2.5 md:px-4 py-2 md:py-3 space-y-2 bg-gradient-to-t from-background via-background to-transparent pb-20 md:pb-0">
+                <ChatInput
+                  ref={chatInputRef}
+                  value={inputValue}
+                  onChange={setInputValue}
+                  onSend={handleSendMessage}
+                  disabled={sendMessage.isPending || !conversationId}
+                  placeholder="输入您的问题..."
+                />
+              </div>
+            )
+          }
+        />
+      </Sheet>
 
-      {/* Dialog - 保持不变 */}
+      {/* Delete Confirmation Dialog */}
       {deleteConfirm && (
         <ConfirmDialog
           open={!!deleteConfirm}

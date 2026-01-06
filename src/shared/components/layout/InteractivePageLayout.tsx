@@ -15,6 +15,11 @@ interface InteractivePageLayoutProps {
 /**
  * 实时交互类页面布局
  * 严格控制高度，禁止溢出
+ * 
+ * 特点：
+ * - Sidebar: 独立滚动（Web only）
+ * - Content: 独立滚动
+ * - Header/Footer: 固定不滚动
  */
 export function InteractivePageLayout({
   header,
@@ -29,39 +34,53 @@ export function InteractivePageLayout({
       {/* Global Header - 固定 */}
       <Header />
 
-      {/* Main Container - 禁止溢出 */}
+      {/* Main Container - flex 布局，禁止溢出 */}
       <div className="flex flex-1 overflow-hidden min-h-0">
-        {/* Sidebar - 可选，Web only */}
+        {/* 
+          ========== Sidebar - Web only ==========
+          - 固定宽度（默认 16rem = 256px）
+          - 左侧边栏，垂直分割线分隔
+          - 内容可独立滚动（关键！）
+          - H5 通过 Sheet Modal 显示
+        */}
         {sidebar && (
           <div
             className={cn(
               'hidden md:flex flex-col',
               sidebarWidth,
-              'border-r border-border/30 bg-background/95 overflow-hidden'
+              'border-r border-border/30 bg-background/95 flex-shrink-0',
+              'overflow-hidden' // 关键：禁止 Sidebar 容器本身滚动
             )}
           >
-            {/* Sidebar Content Area - 允许内部滚动 */}
-            <div className="flex-1 overflow-y-auto overflow-x-hidden min-h-0">
-              {sidebar}
-            </div>
+            {sidebar}
           </div>
         )}
 
-        {/* Chat Content Area */}
+        {/* 
+          ========== Main Chat Area ==========
+          - flex 列式布局
+          - 占据剩余空间
+          - 内部分为 Header / Content / Footer
+        */}
         <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
-          {/* Page Header - 固定，不滚动 */}
+          {/* Header - 固定高度，不滚动 */}
           {header && (
             <div className="flex-shrink-0 border-b border-border/30 bg-background/50 backdrop-blur-sm">
               {header}
             </div>
           )}
 
-          {/* Content Area - 独占滚动权，min-h-0 是关键 */}
+          {/* 
+            ========== Content Area ==========
+            - flex-1: 占据所有剩余空间
+            - overflow-y-auto: 纵向可滚动
+            - min-h-0: 关键！让 flex 正确计算高度
+          */}
           <div className="flex-1 overflow-y-auto overflow-x-hidden min-h-0 flex flex-col">
             {content}
           </div>
 
-          {/* Footer Area - 固定底部，不滚动 */}
+          {/* Footer - 固定底部，不滚动 */}
           {footer && (
             <div className="flex-shrink-0 border-t border-border/20 bg-background">
               {footer}

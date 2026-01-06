@@ -404,3 +404,37 @@ body {
   height: 100%;
   overflow: hidden;
 }
+
+/* 滚动条 - Sidebar 和 Content 区域 */
+@layer base {
+  /* 滚动条轨道 */
+  .overflow-y-auto {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--primary) / 0.3) transparent;
+  }
+
+  /* WebKit 浏览器 */
+  .overflow-y-auto::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .overflow-y-auto::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .overflow-y-auto::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--primary) / 0.3);
+    border-radius: 3px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+
+  .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+    background-color: hsl(var(--primary) / 0.5);
+  }
+
+  /* 侧边栏特殊样式 */
+  [class*="sidebar"] .overflow-y-auto::-webkit-scrollbar {
+    width: 5px;
+  }
+}

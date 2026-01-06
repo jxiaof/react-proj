@@ -130,7 +130,7 @@ export const ChatInput = forwardRef<HTMLTextAreaElement, ChatInputProps>(
       <div className="w-full space-y-2">
         {/* Attachments Display */}
         {attachments.length > 0 && (
-          <div className="flex flex-wrap gap-1.5 md:gap-2 px-1">
+          <div className="flex flex-wrap gap-1.5 md:gap-2 px-0.5">
             {attachments.map((file) => (
               <div
                 key={file.id}
@@ -285,8 +285,8 @@ export const ChatInput = forwardRef<HTMLTextAreaElement, ChatInputProps>(
           </button>
         </div>
 
-        {/* Info Text */}
-        <div className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground px-1">
+        {/* Info Text - Web Only */}
+        <div className="hidden md:flex items-center justify-center gap-1.5 text-xs text-muted-foreground px-1">
           <span className="text-xs">按</span>
           <kbd className="px-2 py-1 rounded bg-muted text-foreground font-semibold text-xs inline-flex items-center whitespace-nowrap">⌘</kbd>
           <span className="text-xs">+</span>
