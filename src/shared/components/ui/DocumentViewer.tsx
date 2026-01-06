@@ -1,8 +1,9 @@
+
 import { useState } from 'react';
 import { X, Download, FileText } from 'lucide-react';
 import { Button } from './Button';
 import { DocumentPreview } from './DocumentPreview';
-import { cn } from '@/shared/utils/cn';
+
 
 interface DocumentViewerProps {
   open: boolean;
@@ -17,7 +18,7 @@ interface DocumentViewerProps {
 }
 
 export function DocumentViewer({ open, onOpenChange, document }: DocumentViewerProps) {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading] = useState(false);
 
   if (!open) return null;
 

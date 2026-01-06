@@ -97,10 +97,10 @@ const testimonials: Testimonial[] = [
   },
 ];
 
-// 将评论分成三行
-const row1 = testimonials.slice(0, 3);
-const row2 = testimonials.slice(3, 6);
-const row3 = testimonials.slice(6, 9);
+// 将评论分成三行用于展示
+// const row1 = testimonials.slice(0, 3);
+// const row2 = testimonials.slice(3, 6);
+// const row3 = testimonials.slice(6, 9);
 
 function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
   return (

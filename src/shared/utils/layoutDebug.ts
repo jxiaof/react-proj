@@ -50,5 +50,5 @@ export function monitorHeightChanges() {
 
 // 快捷调用
 if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
-  (window as any).debugLayout = debugLayoutHeights;
+  (window as unknown as Record<string, typeof debugLayoutHeights>).debugLayout = debugLayoutHeights;
 }

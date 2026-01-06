@@ -19,14 +19,6 @@ function formatFileSize(bytes: number): string {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
 }
 
-function formatDate(dateString: string): string {
-  return new Date(dateString).toLocaleDateString('zh-CN', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  });
-}
-
 // 生成模拟文档内容
 function getMockDocumentContent(name: string, type: string): string {
   const mockContents: Record<string, string> = {
@@ -146,7 +138,7 @@ Authorization: Bearer YOUR_API_KEY
   return mockContents[name] || `# ${name}\n\n这是一份文档预览。\n\n文件类型: ${type}\n\n内容将在上传后显示。`;
 }
 
-function getDocumentCategory(mimeType: string, fileName: string): 'pdf' | 'word' | 'excel' | 'text' | 'other' {
+function getDocumentCategory(mimeType: string): 'pdf' | 'word' | 'excel' | 'text' | 'other' {
     if (mimeType.includes('pdf')) return 'pdf';
     if (mimeType.includes('word') || mimeType.includes('document')) return 'word';
     if (mimeType.includes('sheet') || mimeType.includes('excel')) return 'excel';
@@ -169,7 +161,8 @@ export default function DocumentsPage() {
   // 根据活跃tab过滤文档
   const filteredDocuments = useMemo(() => {
       if (activeTab === 'all') return documents;
-      return documents.filter(doc => getDocumentCategory(doc.mime_type, doc.name) === activeTab);
+      // ✅ 只传一个参数
+      return documents.filter(doc => getDocumentCategory(doc.mime_type) === activeTab);
   }, [documents, activeTab]);
 
   const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {

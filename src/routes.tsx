@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
-import { LoadingSpinner } from '@/shared/components/feedback/LoadingSpinner';
+import { PageLoader } from '@/shared/components/PageLoader';
 
 // Lazy load pages for code splitting
 const HomePage = lazy(() => import('@/features/home/pages/HomePage'));
@@ -8,14 +8,8 @@ const DocumentsPage = lazy(() => import('@/features/documents/pages/DocumentsPag
 const ChatPage = lazy(() => import('@/features/chat/pages/ChatPage'));
 const SettingsPage = lazy(() => import('@/features/settings/pages/SettingsPage'));
 
-// Loading fallback
-const PageLoader = () => (
-  <div className="flex h-screen items-center justify-center">
-    <LoadingSpinner size="lg" />
-  </div>
-);
-
-export const router = createBrowserRouter([
+// Route configuration
+const routeConfig = [
   {
     path: '/',
     element: (
@@ -56,4 +50,6 @@ export const router = createBrowserRouter([
       </Suspense>
     ),
   },
-]);
+];
+
+export const router = createBrowserRouter(routeConfig);

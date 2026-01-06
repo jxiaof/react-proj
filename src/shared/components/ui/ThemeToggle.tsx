@@ -17,8 +17,6 @@ export function ThemeToggle() {
     { value: 'system', label: '系统', icon: <Monitor className="h-4 w-4" /> },
   ];
 
-  const currentTheme = themeOptions.find(t => t.value === theme);
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

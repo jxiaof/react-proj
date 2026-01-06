@@ -26,14 +26,17 @@ export function DocumentPreview({
   const [copied, setCopied] = useState(false);
   const [fadeIn, setFadeIn] = useState(false);
 
+  // ✅ 改进：正确处理 fadeIn 动画
   useEffect(() => {
-    // 触发淡入动画
+    // 立即触发淡入
     setFadeIn(true);
   }, [content, error, isLoading]);
 
   const getDocumentType = (mimeType: string) => {
+    // ✅ 增强类型判断
     if (mimeType.includes('pdf')) return 'pdf';
-    if (mimeType.includes('markdown') || mimeType.includes('text/plain')) return 'text';
+    if (mimeType.includes('markdown')) return 'text';
+    if (mimeType.includes('text/plain')) return 'text';
     if (mimeType.includes('word') || mimeType.includes('document')) return 'text';
     if (mimeType.includes('sheet') || mimeType.includes('excel')) return 'excel';
     if (mimeType.includes('image')) return 'image';
@@ -41,7 +44,8 @@ export function DocumentPreview({
       mimeType.includes('json') ||
       mimeType.includes('xml') ||
       mimeType.includes('javascript') ||
-      mimeType.includes('typescript')
+      mimeType.includes('typescript') ||
+      mimeType.includes('text/plain')
     )
       return 'code';
     return 'unsupported';

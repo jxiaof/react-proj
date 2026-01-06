@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   FileText,
@@ -8,16 +8,12 @@ import {
   Zap,
   Globe,
   Award,
-  Users,
   Building2,
   ArrowRight,
   Mail,
   Phone,
-  MapPin,
   CheckCircle,
   BookOpen,
-  TrendingUp,
-  Sparkles,
 } from 'lucide-react';
 import { PageTransition } from '@/shared/components/PageTransition';
 import { Card, CardContent } from '@/shared/components/ui/Card';
@@ -92,14 +88,7 @@ const partners = [
 ];
 
 export default function HomePage() {
-  const [isLoaded, setIsLoaded] = useState(false);
   const [demoDialogOpen, setDemoDialogOpen] = useState(false);
-
-  useEffect(() => {
-    setIsLoaded(true);
-  }, []);
-
-  if (!isLoaded) return null;
 
   return (
     <>

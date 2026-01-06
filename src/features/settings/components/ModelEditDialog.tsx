@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { X, Zap, Check, AlertCircle, Loader } from 'lucide-react';
+import { X, Zap } from 'lucide-react';
 import { Button } from '@/shared/components/ui/Button';
 import { Card } from '@/shared/components/ui/Card';
-import { cn } from '@/shared/utils/cn';
+
 
 export interface ModelConfig {
     name: string;

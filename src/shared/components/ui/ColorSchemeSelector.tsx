@@ -47,8 +47,7 @@ export function ColorSchemeSelector() {
 		};
 	}, [isOpen]);
 
-	// 获取当前颜色
-	const currentColor = colorSchemes.find(s => s.key === colorScheme)?.color || '#22c55e';
+	// 获取当前标签
 	const currentLabel = colorSchemes.find(s => s.key === colorScheme)?.label || '清爽绿';
 
 	return (

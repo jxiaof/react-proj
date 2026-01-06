@@ -22,7 +22,7 @@ const getCategoryLabel = (category: DocumentCategory): string => {
 	return labels[category];
 };
 
-export const getDocumentCategory = (mimeType: string, fileName: string): DocumentCategory => {
+function getDocumentCategory(mimeType: string): DocumentCategory {
 	if (mimeType.includes('pdf')) return 'pdf';
 	if (mimeType.includes('word') || mimeType.includes('document')) return 'word';
 	if (mimeType.includes('sheet') || mimeType.includes('excel')) return 'excel';
@@ -34,7 +34,7 @@ export const getDocumentCategory = (mimeType: string, fileName: string): Documen
 	)
 		return 'text';
 	return 'other';
-};
+}
 
 export function DocumentTabs({ documents, activeTab, onTabChange }: DocumentTabsProps) {
 	const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -52,7 +52,8 @@ export function DocumentTabs({ documents, activeTab, onTabChange }: DocumentTabs
 		};
 
 		documents.forEach(doc => {
-			const category = getDocumentCategory(doc.mime_type, doc.name);
+			// ✅ 只传一个参数
+			const category = getDocumentCategory(doc.mime_type);
 			counts[category]++;
 		});
 

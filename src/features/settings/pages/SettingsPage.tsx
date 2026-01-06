@@ -3,7 +3,7 @@ import { Button } from '@/shared/components/ui/Button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/shared/components/ui/Card';
 import { Switch } from '@/shared/components/ui/Switch';
 import { ConfirmDialog } from '@/shared/components/ui/ConfirmDialog';
-import { Plus, Moon, Sun, Monitor, Zap, Shield, Bell, Palette, FileText, Mail, BarChart3, MoreVertical, Edit, Trash2, TestTube, Check, X } from 'lucide-react';
+import { Plus, Moon, Sun, Monitor, Zap, Bell, Palette, FileText, Mail, BarChart3, Edit, Trash2, TestTube } from 'lucide-react';
 import { useThemeStore, type ThemeMode, type ColorSchemeKey } from '@/store/themeStore';
 import { AddModelDialog, type ModelConfig } from '../components/AddModelDialog';
 import { mockProviders } from '@/infrastructure/mock/mockData';
@@ -74,7 +74,7 @@ const notificationItems: NotificationItem[] = [
 export default function SettingsPage() {
     const { theme, setTheme, colorScheme, setColorScheme } = useThemeStore();
     const [showAddModelDialog, setShowAddModelDialog] = useState(false);
-    const [editingModel, setEditingModel] = useState<any>(null);
+    const [editingModel, setEditingModel] = useState<ModelConfig | null>(null);
     const [testingModel, setTestingModel] = useState<{ name: string; id: string } | null>(null);
     const [deleteConfirm, setDeleteConfirm] = useState<{ id: string; name: string } | null>(null);
     

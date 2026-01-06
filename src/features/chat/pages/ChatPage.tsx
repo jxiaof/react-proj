@@ -68,10 +68,11 @@ export default function ChatPage() {
 
   // Focus input on conversation change
   useEffect(() => {
-    setSidebarOpen(false);
-    setTimeout(() => {
+    // 使用微任务而不是直接 setState
+    queueMicrotask(() => {
+      setSidebarOpen(false);
       chatInputRef.current?.focus();
-    }, 100);
+    });
   }, [conversationId]);
 
   // Handle keyboard shortcuts

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { X, Zap, Send, Loader, Check, AlertCircle } from 'lucide-react';
 import { Button } from '@/shared/components/ui/Button';
 import { Card } from '@/shared/components/ui/Card';
-import { cn } from '@/shared/utils/cn';
+
 
 interface ModelTestDialogProps {
     open: boolean;
@@ -17,7 +17,6 @@ export function ModelTestDialog({ open, onOpenChange, modelName, modelId }: Mode
     const [testInput, setTestInput] = useState('');
     const [testResponse, setTestResponse] = useState('');
     const [testStatus, setTestStatus] = useState<TestStatus>('idle');
-    const [testError, setTestError] = useState('');
     const [testHistory, setTestHistory] = useState<Array<{ q: string; a: string; time: string }>>([]);
 
     const handleTest = async (e: React.FormEvent) => {
@@ -103,13 +102,13 @@ export function ModelTestDialog({ open, onOpenChange, modelName, modelId }: Mode
                                     type="text"
                                     value={testInput}
                                     onChange={(e) => setTestInput(e.target.value)}
-                                    onKeyPress={(e) => e.key === 'Enter' && handleTest(e as any)}
+                                    onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => e.key === 'Enter' && handleTest(e)}
                                     placeholder="输入问题来测试模型..."
                                     disabled={testStatus === 'testing'}
                                     className="flex-1 px-4 py-2 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all disabled:opacity-50"
                                 />
                                 <Button
-                                    onClick={handleTest as any}
+                                    onClick={() => handleTest()}
                                     disabled={!testInput.trim() || testStatus === 'testing'}
                                     size="sm"
                                     className="flex-shrink-0"
