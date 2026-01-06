@@ -122,21 +122,40 @@
   --color-destructive-foreground: hsl(var(--destructive-foreground));
 }
 
-/* 页面级加载动画 - 快速入场 */
+/* 页面级加载动画 - 专业优化版 */
 @layer utilities {
-  /* @keyframes pageEnter {
+  /**
+   * 🎯 动画优化策略
+   * - 使用材料设计缓动曲线（标准、减速、加速）
+   * - 初始 opacity: 1（禁止闪烁）
+   * - 微妙位移（≤4px）
+   * - 符合用户习惯的时长（200-400ms）
+   */
+
+  /* ========== 缓动曲线定义 ========== */
+  /* Material Design 标准缓动 - 90%的场景 */
+  /* cubic-bezier(0.4, 0, 0.2, 1) = 快进慢出 */
+  
+  /* iOS 风格缓动 - 入场动画 */
+  /* cubic-bezier(0.25, 0.46, 0.45, 0.94) = 自然弹跳 */
+
+  /* 页面加载入场 */
+  @keyframes pageEnter {
     from {
-      opacity: 0;
+      opacity: 1;
+      /* transform: translateY(4px);   */
     }
     to {
       opacity: 1;
+      transform: translateY(0);
     }
-  } */
+  }
 
+  /* 内容向上进入（卡片、列表项） */
   @keyframes fadeInUp {
     from {
-      opacity: 1;           /* ✅ 初始完全可见 */
-      transform: translateY(5px);
+      opacity: 1;
+      /* transform: translateY(3px);   */
     }
     to {
       opacity: 1;
@@ -144,10 +163,11 @@
     }
   }
 
+  /* 内容向下进入（标题、头部） */
   @keyframes fadeInDown {
     from {
-      opacity: 0;
-      transform: translateY(-5px);
+      opacity: 1;
+      /* transform: translateY(-2px);  */
     }
     to {
       opacity: 1;
@@ -155,10 +175,11 @@
     }
   }
 
+  /* 缩放进入（模态框、对话框） */
   @keyframes scaleIn {
     from {
-      opacity: 0;
-      transform: scale(0.95);
+      opacity: 1;
+      transform: scale(0.92);  /* 92% → 100% */
     }
     to {
       opacity: 1;
@@ -166,23 +187,144 @@
     }
   }
 
+  /* 淡入（图片、背景） */
+  @keyframes fadeIn {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* 左侧滑入（侧边栏） */
+  @keyframes slideInLeft {
+    from {
+      opacity: 1;
+      transform: translateX(-12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  /* 右侧滑入（通知、工具栏） */
+  @keyframes slideInRight {
+    from {
+      opacity: 1;
+      transform: translateX(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  /* ========== 动画应用类 ========== */
+
+  /**
+   * 页面整体入场 - 快速流畅
+   * 使用场景：PageTransition 包装的页面
+   * 时长：250ms（专业速度）
+   * 曲线：Material Design 标准（快进慢出）
+   */
   .animate-pageEnter {
-    animation: pageEnter 0.3s ease-out;
+    animation: pageEnter 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   }
 
+  /**
+   * 卡片/内容向上进入 - 通用核心动画
+   * 使用场景：Card、列表项、对话框内容
+   * 时长：300ms
+   * 曲线：iOS 风格（自然柔和）
+   * 
+   * ⭐ 配合 animationDelay 使用时：
+   * - 首项：0-40ms（立即）
+   * - 间隔：60-80ms（级联效果）
+   * - 最多延迟：400-500ms（避免过长）
+   */
   .animate-fadeInUp {
-    animation: fadeInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation: fadeInUp 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   }
 
+  /**
+   * 标题/头部向下进入
+   * 使用场景：页面标题、Section 标题、表头
+   * 特点：与 fadeInUp 反向，形成对称美感
+   * 时长：300ms
+   */
   .animate-fadeInDown {
-    animation: fadeInDown 0.5s ease-out forwards;
+    animation: fadeInDown 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   }
 
+  /**
+   * 模态框/对话框缩放进入
+   * 使用场景：Dialog、Modal、Popover
+   * 时长：250ms（快速响应）
+   * 曲线：加速缓动（反应灵敏）
+   */
   .animate-scaleIn {
-    animation: scaleIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation: scaleIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
   }
 
-  /* 便利类 */
+  /**
+   * 淡入动画 - 图片、背景、覆盖层
+   * 使用场景：图片加载完成、背景切换、Backdrop
+   * 时长：200ms（最快）
+   */
+  .animate-fadeIn {
+    animation: fadeIn 0.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  /**
+   * 左侧滑入 - 侧边栏
+   * 使用场景：ChatSidebar、MobileNav（从左进入）
+   * 时长：300ms
+   */
+  .animate-slideInLeft {
+    animation: slideInLeft 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+
+  /**
+   * 右侧滑入 - 通知、下拉菜单
+   * 使用场景：Notification、Dropdown（从右进入）
+   * 时长：300ms
+   */
+  .animate-slideInRight {
+    animation: slideInRight 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+
+  /* ========== 延迟辅助类 ========== */
+  /**
+   * 推荐延迟配置表：
+   * 
+   * | 场景 | 首项 | 间隔 | 最大 | 示例 |
+   * |------|------|------|------|------|
+   * | 静态列表 | 0ms | 60ms | 400ms | 卡片网格 |
+   * | 动态列表 | 0ms | 40ms | 300ms | 聊天消息 |
+   * | 对话框 | 80ms | 100ms | 400ms | 表单字段 |
+   * | 页面转场 | 0ms | 80ms | 800ms | 多 Section |
+   * 
+   * 禁用延迟的场景：
+   * ✅ 首屏关键内容（Hero、Header）
+   * ✅ 频繁交互的元素（Input、Button）
+   * ✅ 小于 200ms 的快速列表加载
+   */
+
+  @supports (animation-timeline: view()) {
+    /**
+     * 滚动进入动画（可选，需浏览器支持）
+     * 使用场景：当元素进入视口时触发
+     */
+    .animate-onScroll {
+      animation: fadeInUp 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+      animation-timeline: view();
+      animation-range: entry 0% cover 30%;
+    }
+  }
+
+  /* ========== 工具类 ========== */
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
@@ -198,4 +340,62 @@
   .safe-area-pr {
     padding-right: max(1rem, env(safe-area-inset-right));
   }
+
+  /* 降速效果 - 用于强调重要操作 */
+  .motion-reduce {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  /* 用户偏好尊重 */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 }
+
+/* ========== 使用指南 ========== */
+/*
+🎯 快速参考：
+
+1️⃣  页面首屏内容（Hero、标题）
+   ❌ 不要添加 animationDelay
+   ✅ 类名：animate-fadeInDown（立即显示）
+   ✅ 样式：<h1 className="animate-fadeInDown">标题</h1>
+
+2️⃣  卡片网格（Features、Stats）
+   ✅ 首项延迟 0-40ms
+   ✅ 间隔 60-80ms
+   ✅ 类名：animate-fadeInUp + style={{ animationDelay: '${idx * 80}ms' }}
+
+3️⃣  对话框表单
+   ✅ 整体容器：无延迟 + animate-scaleIn
+   ✅ 表单字段：延迟 100-150ms + animate-fadeInUp
+   ✅ 按钮：延迟 300-350ms + animate-slideInRight
+
+4️⃣  聊天消息列表
+   ✅ 消息气泡：animate-fadeInUp
+   ✅ 间隔：30-40ms（快速级联）
+   ✅ 自动滚动到底部
+
+5️⃣  侧边栏展开
+   ✅ 侧边栏本身：animate-slideInLeft + 300ms
+   ✅ 菜单项：animate-fadeInUp + 60ms 间隔
+
+缓动曲线速查表：
+┌─────────────────────┬──────────────────────────┬─────────┐
+│ 场景                │ 缓动曲线                 │ 时长    │
+├─────────────────────┼──────────────────────────┼─────────┤
+│ 入场（通用）        │ cubic-bezier(0.25, 0.46, 0.45, 0.94) │ 300ms  │
+│ 页面转换（快）      │ cubic-bezier(0.4, 0, 0.2, 1)       │ 250ms  │
+│ 弹跳效果（夸张）    │ cubic-bezier(0.34, 1.56, 0.64, 1)  │ 250ms  │
+│ 淡入（背景）        │ cubic-bezier(0.4, 0, 0.2, 1)       │ 200ms  │
+│ 列表级联（缓）      │ cubic-bezier(0.25, 0.46, 0.45, 0.94) │ 300ms  │
+└─────────────────────┴──────────────────────────┴─────────┘
+*/
