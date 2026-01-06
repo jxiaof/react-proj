@@ -11,3 +11,4 @@ export * from './ColorSchemeSelector';
 export * from './DocumentViewer';
 export * from './Switch';
 export * from './ConfirmDialog';
+export * from './Dropdown';
