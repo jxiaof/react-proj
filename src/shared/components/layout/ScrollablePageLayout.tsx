@@ -44,37 +44,38 @@ export function ScrollablePageLayout({
       <Header />
 
       {/* ========== Main Content Area - 可滚动 ========== */}
-      {/* 
-        关键属性说明：
-        - flex-1: 占据所有剩余空间
-        - overflow-y-auto: 允许纵向滚动
-        - overflow-x-hidden: 禁止横向滚动
-        - min-h-0: 关键！让 flex 正确计算高度（否则会溢出）
-      */}
       <main
         className={cn(
           'flex-1 overflow-y-auto overflow-x-hidden min-h-0',
-          'scroll-smooth', // 平滑滚动
+          'scroll-smooth',
           mainClassName
         )}
       >
         {/* 内容容器 Wrapper */}
         <div
           className={cn(
-            'w-full h-full flex flex-col',
+            'w-full flex flex-col',
             // 内容宽度约束
             !fullWidth && maxWidthConstraint && ['mx-auto', maxWidth],
             // 内边距
             contentPadding,
-            // H5 底部安全间距（防止 TabBar 遮挡）
-            'pb-20 md:pb-8'
           )}
         >
           {/* 实际内容 */}
           {children}
 
-          {/* 底部安全间距（额外缓冲） */}
-          <div className="h-4 md:h-0" />
+          {/* 
+            底部安全间距（关键！）
+            - H5: pb-24 (96px = 64px TabBar + 32px 缓冲)
+            - Web: pb-8 (32px 缓冲)
+            - 额外加 safe-area-inset-bottom 处理刘海屏
+          */}
+          <div 
+            className="h-24 md:h-8 flex-shrink-0"
+            style={{
+              paddingBottom: 'max(0px, env(safe-area-inset-bottom))'
+            }}
+          />
         </div>
       </main>
 

@@ -221,8 +221,16 @@ export default function DocumentsPage() {
 
   return (
     <PageTransition>
-      <ScrollablePageLayout hideBottomNav={false} fullWidth={false}>
-        {/* 内容会自动处理滚动和安全间距 */}
+      <ScrollablePageLayout 
+        hideBottomNav={false}
+        fullWidth={false}
+        maxWidth="max-w-6xl"
+        contentPadding="px-3 sm:px-4 md:px-6 py-6 md:py-8"
+      >
+        {/* 
+          ✅ 改进：使用 space-y 统一间距，自动处理底部安全间距
+          ScrollablePageLayout 会自动添加 H5 底部缓冲
+        */}
         <div className="space-y-6 md:space-y-8">
           {/* Header */}
           <div className="animate-fadeInDown">
@@ -261,19 +269,21 @@ export default function DocumentsPage() {
             </CardContent>
           </Card>
 
-          {/* Loading/Error/Empty States */}
+          {/* Loading State */}
           {isLoading && (
             <div className="flex justify-center py-12 animate-fadeInUp">
               <LoadingSpinner size="lg" />
             </div>
           )}
 
+          {/* Error State */}
           {error && (
             <div className="rounded-lg bg-destructive/10 p-4 text-sm text-destructive border border-destructive/20 animate-fadeInUp">
               加载文档失败: {error.message}
             </div>
           )}
 
+          {/* Empty State */}
           {!isLoading && !error && documents.length === 0 && (
             <div className="text-center py-16">
               <div className="inline-flex items-center justify-center h-14 w-14 rounded-lg bg-muted mb-4">
@@ -284,7 +294,7 @@ export default function DocumentsPage() {
             </div>
           )}
 
-          {/* Document Grid */}
+          {/* Document List */}
           {!isLoading && !error && documents.length > 0 && (
             <div className="space-y-4">
               <DocumentTabs 
@@ -385,8 +395,11 @@ export default function DocumentsPage() {
               </div>
             </div>
           )}
-
-          {/* 这个 div 会自动添加安全间距，防止 TabBar 遮挡 */}
+          
+          {/* 
+            ✅ 不需要额外的缓冲 div
+            ScrollablePageLayout 会自动处理底部安全间距
+          */}
         </div>
       </ScrollablePageLayout>
 

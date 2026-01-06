@@ -142,6 +142,9 @@ export default function SettingsPage() {
               maxWidth="max-w-4xl"
               contentPadding="px-3 sm:px-4 md:px-6 py-6 md:py-8"
             >
+                {/* 
+                  ✅ 改进：统一使用 space-y，让 ScrollablePageLayout 处理底部间距
+                */}
                 <div className="space-y-6 md:space-y-8">
                     {/* Header */}
                     <div className="animate-fadeInDown space-y-2">
@@ -416,10 +419,15 @@ export default function SettingsPage() {
                           })}
                         </CardContent>
                     </Card>
+
+                    {/* 
+                      ✅ 不需要额外的缓冲 div
+                      ScrollablePageLayout 会自动处理底部安全间距
+                    */}
                 </div>
             </ScrollablePageLayout>
 
-            {/* Add Model Dialog */}
+            {/* Dialogs - 保持不变 */}
             <AddModelDialog 
               open={showAddModelDialog} 
               onOpenChange={setShowAddModelDialog}
