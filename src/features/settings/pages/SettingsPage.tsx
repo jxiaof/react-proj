@@ -3,7 +3,8 @@ import { PageTransition } from '@/shared/components/PageTransition';
 import { Button } from '@/shared/components/ui/Button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/shared/components/ui/Card';
 import { Switch } from '@/shared/components/ui/Switch';
-import { Plus, Moon, Sun, Monitor, Zap, Shield, Bell, Palette, FileText, Mail, BarChart3 } from 'lucide-react';
+import { ConfirmDialog } from '@/shared/components/ui/ConfirmDialog';
+import { Plus, Moon, Sun, Monitor, Zap, Shield, Bell, Palette, FileText, Mail, BarChart3, MoreVertical, Edit, Trash2, TestTube, Check, X } from 'lucide-react';
 import { useThemeStore, type ThemeMode, type ColorSchemeKey } from '@/store/themeStore';
 import { AddModelDialog, type ModelConfig } from '../components/AddModelDialog';
 import { mockProviders } from '@/infrastructure/mock/mockData';
@@ -75,6 +76,7 @@ export default function SettingsPage() {
     const [showAddModelDialog, setShowAddModelDialog] = useState(false);
     const [editingModel, setEditingModel] = useState<any>(null);
     const [testingModel, setTestingModel] = useState<{ name: string; id: string } | null>(null);
+    const [deleteConfirm, setDeleteConfirm] = useState<{ id: string; name: string } | null>(null);
     
     const [notifications, setNotifications] = useState(defaultNotifications);
     const [providers, setProviders] = useState(mockProviders);
@@ -122,6 +124,7 @@ export default function SettingsPage() {
         }
         return filtered;
       });
+      setDeleteConfirm(null);
     };
 
     const handleNotificationChange = (key: keyof typeof notifications) => {
@@ -196,31 +199,69 @@ export default function SettingsPage() {
                                         </div>
                                     </div>
 
-                                    <div className="flex gap-2 flex-shrink-0 w-full md:w-auto">
-                                        <Button 
-                                          variant="ghost" 
-                                          size="sm" 
-                                          className="flex-1 md:flex-none text-xs h-8"
-                                          onClick={() => setTestingModel({ name: provider.name, id: provider.model })}
-                                        >
+                                    {/* Actions Container */}
+                                    <div className="flex items-center gap-1.5 md:gap-2 flex-shrink-0">
+                                        {/* Desktop: Full Text Buttons */}
+                                        <div className="hidden sm:flex items-center gap-1.5">
+                                          <Button 
+                                            variant="ghost" 
+                                            size="sm" 
+                                            className="text-xs h-8 px-2.5 text-blue-600 transition-all active:scale-95"
+                                            onClick={() => setTestingModel({ name: provider.name, id: provider.model })}
+                                            title="测试此模型"
+                                          >
+                                            <TestTube className="h-3.5 w-3.5 mr-1" />
                                             测试
-                                        </Button>
-                                        <Button 
-                                          variant="ghost" 
-                                          size="sm" 
-                                          className="flex-1 md:flex-none text-xs h-8"
-                                          onClick={() => setEditingModel(provider)}
-                                        >
+                                          </Button>
+                                          <Button 
+                                            variant="ghost" 
+                                            size="sm" 
+                                            className="text-xs h-8 px-2.5 text-amber-600 transition-all active:scale-95"
+                                            onClick={() => setEditingModel(provider)}
+                                            title="编辑模型配置"
+                                          >
+                                            <Edit className="h-3.5 w-3.5 mr-1" />
                                             编辑
-                                        </Button>
-                                        <Button 
-                                          variant="ghost" 
-                                          size="sm" 
-                                          className="flex-1 md:flex-none text-xs h-8 text-destructive hover:text-destructive"
-                                          onClick={() => handleDeleteModel(provider.id)}
-                                        >
+                                          </Button>
+                                          <Button 
+                                            variant="ghost" 
+                                            size="sm" 
+                                            className="text-xs h-8 px-2.5 text-destructive transition-all active:scale-95"
+                                            onClick={() => setDeleteConfirm({ id: provider.id, name: provider.name })}
+                                            title="删除此模型"
+                                          >
+                                            <Trash2 className="h-3.5 w-3.5 mr-1" />
                                             删除
-                                        </Button>
+                                          </Button>
+                                        </div>
+
+                                        {/* Mobile: Compact Icon Buttons */}
+                                        <div className="flex sm:hidden items-center gap-1">
+                                          <Button 
+                                            variant="ghost" 
+                                            size="sm" 
+                                            className="h-8 w-8 p-0 flex items-center justify-center text-blue-600 transition-all active:scale-95"
+                                            onClick={() => setTestingModel({ name: provider.name, id: provider.model })}
+                                          >
+                                            <TestTube className="h-4 w-4" />
+                                          </Button>
+                                          <Button 
+                                            variant="ghost" 
+                                            size="sm" 
+                                            className="h-8 w-8 p-0 flex items-center justify-center text-amber-600 transition-all active:scale-95"
+                                            onClick={() => setEditingModel(provider)}
+                                          >
+                                            <Edit className="h-4 w-4" />
+                                          </Button>
+                                          <Button 
+                                            variant="ghost" 
+                                            size="sm" 
+                                            className="h-8 w-8 p-0 flex items-center justify-center text-destructive transition-all active:scale-95"
+                                            onClick={() => setDeleteConfirm({ id: provider.id, name: provider.name })}
+                                          >
+                                            <Trash2 className="h-4 w-4" />
+                                          </Button>
+                                        </div>
                                     </div>
                                 </div>
                             ))}
@@ -333,25 +374,28 @@ export default function SettingsPage() {
                               <div
                                 key={item.id}
                                 className={cn(
-                                  'flex items-center gap-3 md:gap-4 p-4 rounded-lg border-2 transition-all duration-300',
+                                  'flex items-center justify-between gap-3 md:gap-4 p-3 md:p-4 rounded-lg border-2 transition-all duration-300',
                                   isEnabled
                                     ? 'border-primary/30 bg-primary/5'
-                                    : 'border-border/30 bg-muted/20 hover:border-border/50'
+                                    : 'border-border/30 bg-muted/20'
                                 )}
                               >
-                                {/* Icon */}
-                                <div className="flex-shrink-0 h-5 w-5 text-primary/70">
-                                  {item.icon}
-                                </div>
+                                {/* Left Content */}
+                                <div className="flex items-center gap-3 md:gap-4 flex-1 min-w-0">
+                                  {/* Icon */}
+                                  <div className="flex-shrink-0 h-5 w-5 text-primary/70">
+                                    {item.icon}
+                                  </div>
 
-                                {/* Content */}
-                                <div className="flex-1 min-w-0">
-                                  <p className="font-medium text-sm text-foreground">
-                                    {item.title}
-                                  </p>
-                                  <p className="text-xs text-muted-foreground mt-0.5">
-                                    {item.description}
-                                  </p>
+                                  {/* Text Content */}
+                                  <div className="flex-1 min-w-0">
+                                    <p className="font-medium text-sm text-foreground">
+                                      {item.title}
+                                    </p>
+                                    <p className="text-xs text-muted-foreground mt-0.5">
+                                      {item.description}
+                                    </p>
+                                  </div>
                                 </div>
 
                                 {/* Switch */}
@@ -391,6 +435,18 @@ export default function SettingsPage() {
                     modelId={testingModel.id}
                   />
                 )}
+
+                {/* Delete Confirmation Dialog */}
+                <ConfirmDialog
+                  open={!!deleteConfirm}
+                  title="删除 AI 模型"
+                  description={`确定要删除模型 "${deleteConfirm?.name}" 吗？此操作无法撤销。`}
+                  confirmText="删除"
+                  cancelText="取消"
+                  isDangerous
+                  onConfirm={() => deleteConfirm && handleDeleteModel(deleteConfirm.id)}
+                  onCancel={() => setDeleteConfirm(null)}
+                />
             </MainLayout>
         </PageTransition>
     );

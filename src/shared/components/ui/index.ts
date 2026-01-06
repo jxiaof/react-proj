@@ -10,3 +10,4 @@ export * from './Logo';
 export * from './ColorSchemeSelector';
 export * from './DocumentViewer';
 export * from './Switch';
+export * from './ConfirmDialog';
