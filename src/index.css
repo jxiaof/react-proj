@@ -124,19 +124,19 @@
 
 /* 页面级加载动画 - 快速入场 */
 @layer utilities {
-  @keyframes pageEnter {
+  /* @keyframes pageEnter {
     from {
       opacity: 0;
     }
     to {
       opacity: 1;
     }
-  }
+  } */
 
   @keyframes fadeInUp {
     from {
-      opacity: 0;
-      transform: translateY(12px);
+      opacity: 1;           /* ✅ 初始完全可见 */
+      transform: translateY(5px);
     }
     to {
       opacity: 1;
@@ -147,7 +147,7 @@
   @keyframes fadeInDown {
     from {
       opacity: 0;
-      transform: translateY(-12px);
+      transform: translateY(-5px);
     }
     to {
       opacity: 1;
@@ -171,7 +171,7 @@
   }
 
   .animate-fadeInUp {
-    animation: fadeInUp 0.5s ease-out forwards;
+    animation: fadeInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   }
 
   .animate-fadeInDown {
