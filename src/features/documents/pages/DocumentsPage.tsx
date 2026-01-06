@@ -1,5 +1,5 @@
 import { useState, useRef, useMemo } from 'react';
-import { MainLayout } from '@/shared/components/layout/MainLayout';
+import { ScrollablePageLayout } from '@/shared/components/layout/ScrollablePageLayout';
 import { PageTransition } from '@/shared/components/PageTransition';
 import { Button } from '@/shared/components/ui/Button';
 import { Card, CardContent } from '@/shared/components/ui/Card';
@@ -221,7 +221,7 @@ export default function DocumentsPage() {
 
     return (
         <PageTransition>
-            <MainLayout hideBottomNav={false} fullWidth={false}>
+            <ScrollablePageLayout hideBottomNav={false}>
                 <div className="space-y-6 md:space-y-8 pb-20 md:pb-8">
                     {/* Header */}
                     <div className="animate-fadeInDown">
@@ -398,7 +398,7 @@ export default function DocumentsPage() {
                         </div>
                     )}
                 </div>
-            </MainLayout>
+            </ScrollablePageLayout>
 
             {/* Document Viewer */}
             {selectedDoc && (
