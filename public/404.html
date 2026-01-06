@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>重定向中...</title>
+    <script>
+      // GitHub Pages SPA 路由修复
+      // 当访问任何不存在的路径时，重定向到 index.html
+      const path = window.location.pathname;
+      const segments = path.split('/').filter(Boolean);
+      
+      // 如果是项目子路径（非用户站点），获取仓库名
+      const isProjectSite = segments.length > 0 && segments[0] !== 'index.html';
+      const basePath = isProjectSite ? '/' + segments[0] : '/';
+      
+      // 重定向到主页，让 React Router 处理路由
+      window.location.replace(basePath + '?redirect=' + encodeURIComponent(path));
+    </script>
+  </head>
+  <body>
+    <p>重定向中...</p>
+  </body>
+</html>
