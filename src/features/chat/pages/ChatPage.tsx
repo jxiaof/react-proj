@@ -150,6 +150,7 @@ export default function ChatPage() {
 
   return (
     <PageTransition>
+      {/* 关键：InteractivePageLayout 会处理所有高度计算 */}
       <InteractivePageLayout
         hideBottomNav={false}
         sidebar={
@@ -167,7 +168,8 @@ export default function ChatPage() {
           />
         }
         header={
-          <div className="flex items-center justify-between px-3 md:px-4 py-3 h-14">
+          <div className="flex items-center justify-between px-3 md:px-4 py-3">
+            {/* Header content - 保持简洁，不要超过 56px */}
             <div className="flex items-center gap-3 flex-1 min-w-0">
               <Button
                 variant="ghost"
@@ -225,7 +227,9 @@ export default function ChatPage() {
           </div>
         }
         content={
+          // 内容区域由 InteractivePageLayout 处理滚动
           !conversationId ? (
+            // 空状态
             <div className="flex flex-1 items-center justify-center p-4">
               <div className="text-center max-w-sm space-y-4">
                 <div className="inline-flex items-center justify-center h-12 w-12 rounded-lg bg-primary/10">
@@ -251,7 +255,8 @@ export default function ChatPage() {
               </div>
             </div>
           ) : (
-            <div className="space-y-4 p-3 md:p-4 flex flex-col" ref={messagesContainerRef}>
+            // 消息列表 - 这里会自动滚动
+            <div className="space-y-4 p-3 md:p-4">
               {messages.map((msg, idx) => (
                 <div
                   key={msg.id}
@@ -289,7 +294,7 @@ export default function ChatPage() {
         }
         footer={
           conversationId && (
-            <div className="pt-3 md:pt-4 pb-3 md:pb-4 px-3 md:px-4">
+            <div className="p-3 md:p-4">
               <ChatInput
                 ref={chatInputRef}
                 value={inputValue}
@@ -297,15 +302,13 @@ export default function ChatPage() {
                 onSend={handleSendMessage}
                 disabled={sendMessage.isPending || !conversationId}
                 placeholder="输入您的问题..."
-                attachments={attachments}
-                onAttachFile={(files) => setAttachments([...attachments, ...files])}
-                onRemoveAttachment={(fileId) => setAttachments(attachments.filter((f) => f.id !== fileId))}
               />
             </div>
           )
         }
       />
 
+      {/* Dialog - 保持不变 */}
       {deleteConfirm && (
         <ConfirmDialog
           open={!!deleteConfirm}

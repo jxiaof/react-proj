@@ -1,6 +1,17 @@
 @import "tailwindcss";
 
 @layer base {
+  /* 禁止全局滚动 - 关键！ */
+  html,
+  body,
+  #root {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
   :root {
     /* 浅色模式 - 清爽绿配色（默认） */
     --background: 0 0% 100%;
@@ -367,4 +378,29 @@
   .dark .hover\:shadow-enhance:hover {
     box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.4);
   }
+}
+
+/* html {
+  scroll-behavior: smooth;
+} */
+
+/* body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+} */
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* 禁止全局滚动 */
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }

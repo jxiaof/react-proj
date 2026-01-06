@@ -155,259 +155,249 @@ function getDocumentCategory(mimeType: string, fileName: string): 'pdf' | 'word'
 }
 
 export default function DocumentsPage() {
-    const fileInputRef = useRef<HTMLInputElement>(null);
-    const [viewerOpen, setViewerOpen] = useState(false);
-    const [selectedDoc, setSelectedDoc] = useState<(Document & { content?: string }) | null>(null);
-    const [activeTab, setActiveTab] = useState<'all' | 'pdf' | 'word' | 'excel' | 'text' | 'other'>('all');
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [viewerOpen, setViewerOpen] = useState(false);
+  const [selectedDoc, setSelectedDoc] = useState<(Document & { content?: string }) | null>(null);
+  const [activeTab, setActiveTab] = useState<'all' | 'pdf' | 'word' | 'excel' | 'text' | 'other'>('all');
 
-    const { data: documentsData, isLoading, error } = useDocuments();
-    const uploadMutation = useUploadDocument();
-    const deleteMutation = useDeleteDocument();
+  const { data: documentsData, isLoading, error } = useDocuments();
+  const uploadMutation = useUploadDocument();
+  const deleteMutation = useDeleteDocument();
 
-    const documents = documentsData?.data ?? [];
+  const documents = documentsData?.data ?? [];
 
-    // 根据活跃tab过滤文档
-    const filteredDocuments = useMemo(() => {
-        if (activeTab === 'all') return documents;
-        return documents.filter(doc => getDocumentCategory(doc.mime_type, doc.name) === activeTab);
-    }, [documents, activeTab]);
+  // 根据活跃tab过滤文档
+  const filteredDocuments = useMemo(() => {
+      if (activeTab === 'all') return documents;
+      return documents.filter(doc => getDocumentCategory(doc.mime_type, doc.name) === activeTab);
+  }, [documents, activeTab]);
 
-    const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
-        const files = event.currentTarget.files;
-        if (!files) return;
+  const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
+      const files = event.currentTarget.files;
+      if (!files) return;
 
-        for (const file of Array.from(files)) {
-            uploadMutation.mutate(file);
-        }
+      for (const file of Array.from(files)) {
+          uploadMutation.mutate(file);
+      }
 
-        if (fileInputRef.current) {
-            fileInputRef.current.value = '';
-        }
-    };
+      if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+      }
+  };
 
-    const handleDelete = (id: string) => {
-        if (confirm('确定要删除这个文档吗？')) {
-            deleteMutation.mutate(id);
-        }
-    };
+  const handleDelete = (id: string) => {
+      if (confirm('确定要删除这个文档吗？')) {
+          deleteMutation.mutate(id);
+      }
+  };
 
-    const handleViewDocument = (doc: Document) => {
-        const extMap: Record<string, string> = {
-            pdf: 'pdf',
-            doc: 'word',
-            docx: 'word',
-            xlsx: 'excel',
-            xls: 'excel',
-            txt: 'text',
-            md: 'text',
-            json: 'code',
-            xml: 'code',
-            jpg: 'image',
-            jpeg: 'image',
-            png: 'image',
-        };
+  const handleViewDocument = (doc: Document) => {
+      const extMap: Record<string, string> = {
+          pdf: 'pdf',
+          doc: 'word',
+          docx: 'word',
+          xlsx: 'excel',
+          xls: 'excel',
+          txt: 'text',
+          md: 'text',
+          json: 'code',
+          xml: 'code',
+          jpg: 'image',
+          jpeg: 'image',
+          png: 'image',
+      };
 
-        const ext = doc.name.split('.').pop()?.toLowerCase() || '';
-        const type = extMap[ext] || 'unknown';
+      const ext = doc.name.split('.').pop()?.toLowerCase() || '';
+      const type = extMap[ext] || 'unknown';
 
-        const docWithContent = {
-            ...doc,
-            content: getMockDocumentContent(doc.name, type),
-        };
+      const docWithContent = {
+          ...doc,
+          content: getMockDocumentContent(doc.name, type),
+      };
 
-        setSelectedDoc(docWithContent);
-        setViewerOpen(true);
-    };
+      setSelectedDoc(docWithContent);
+      setViewerOpen(true);
+  };
 
-    return (
-        <PageTransition>
-            <ScrollablePageLayout hideBottomNav={false}>
-                <div className="space-y-6 md:space-y-8 pb-20 md:pb-8">
-                    {/* Header */}
-                    <div className="animate-fadeInDown">
-                        <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold">我的文档</h1>
-                        <p className="text-sm md:text-base text-muted-foreground mt-2">
-                            管理和上传您的文档，开始智能问答
-                        </p>
-                    </div>
+  return (
+    <PageTransition>
+      <ScrollablePageLayout hideBottomNav={false} fullWidth={false}>
+        {/* 内容会自动处理滚动和安全间距 */}
+        <div className="space-y-6 md:space-y-8">
+          {/* Header */}
+          <div className="animate-fadeInDown">
+            <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold">我的文档</h1>
+            <p className="text-sm md:text-base text-muted-foreground mt-2">
+              管理和上传您的文档，开始智能问答
+            </p>
+          </div>
 
-                    {/* Upload Section - Fixed */}
-                    <Card className="animate-fadeInUp" style={{ animationDelay: '80ms' }}>
-                        <CardContent className="pt-6">
-                            <div
-                                className="border-2 border-dashed border-primary/30 rounded-xl p-6 md:p-8 text-center hover:border-primary/50 hover:bg-primary/5 transition-all duration-200 cursor-pointer group"
-                                onClick={() => fileInputRef.current?.click()}
-                            >
-                                <div className="inline-flex items-center justify-center h-12 w-12 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors mb-4">
-                                    <Upload className="h-6 w-6 text-primary" />
-                                </div>
-                                <h3 className="font-semibold text-base md:text-lg text-foreground">上传文档</h3>
-                                <p className="text-xs md:text-sm text-muted-foreground mt-2">
-                                    拖拽或点击选择，支持 PDF、Word、Markdown 等多种格式
-                                </p>
-                                <Button variant="outline" size="sm" className="mt-4">
-                                    选择文件
-                                </Button>
-                                <input
-                                    ref={fileInputRef}
-                                    type="file"
-                                    multiple
-                                    onChange={handleFileSelect}
-                                    className="hidden"
-                                    accept=".pdf,.doc,.docx,.md,.txt,.xls,.xlsx,.json,.xml,.csv,.ppt,.pptx,.jpg,.jpeg,.png,.gif"
-                                />
-                            </div>
-                        </CardContent>
-                    </Card>
-
-                    {/* Loading State */}
-                    {isLoading && (
-                        <div className="flex justify-center py-12 animate-fadeInUp" style={{ animationDelay: '160ms' }}>
-                            <LoadingSpinner size="lg" />
-                        </div>
-                    )}
-
-                    {/* Error State */}
-                    {error && (
-                        <div className="rounded-lg bg-destructive/10 p-4 text-sm text-destructive border border-destructive/20 animate-fadeInUp" style={{ animationDelay: '160ms' }}>
-                            加载文档失败: {error.message}
-                        </div>
-                    )}
-
-                    {/* Empty State */}
-                    {!isLoading && !error && documents.length === 0 && (
-                        <div className="text-center py-16 animate-fadeInUp" style={{ animationDelay: '160ms' }}>
-                            <div className="inline-flex items-center justify-center h-14 w-14 rounded-lg bg-muted mb-4">
-                                <FileText className="h-7 w-7 text-muted-foreground/60" />
-                            </div>
-                            <h3 className="text-lg font-semibold">还没有文档</h3>
-                            <p className="text-sm text-muted-foreground mt-2">上传您的第一个文档以开始</p>
-                        </div>
-                    )}
-
-                    {/* Documents Section with Tabs */}
-                    {!isLoading && !error && documents.length > 0 && (
-                        <div className="space-y-4 animate-fadeInUp" style={{ animationDelay: '160ms' }}>
-                            {/* Tabs Navigation */}
-                            <DocumentTabs 
-                                documents={documents}
-                                activeTab={activeTab}
-                                onTabChange={setActiveTab}
-                            />
-
-                            {/* Empty State for filtered tab */}
-                            {filteredDocuments.length === 0 ? (
-                                <div className="text-center py-12">
-                                    <FileText className="h-8 w-8 text-muted-foreground/40 mx-auto mb-3" />
-                                    <p className="text-sm text-muted-foreground">此分类下没有文档</p>
-                                </div>
-                            ) : (
-                                /* Document Grid - Responsive */
-                                <div className="grid gap-4 md:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-                                    {filteredDocuments.map((doc, idx) => (
-                                        <Card
-                                            key={doc.id}
-                                            className="group overflow-hidden animate-scaleIn transition-all duration-300 hover:shadow-enhance hover:-translate-y-1"
-                                            style={{ animationDelay: `${240 + idx * 60}ms` }}
-                                        >
-                                            <CardContent className="pt-5 relative">
-                                                {/* Status Indicator */}
-                                                <div className="absolute top-4 right-4">
-                                                    <div
-                                                        className={cn(
-                                                            'w-2.5 h-2.5 rounded-full transition-all',
-                                                            doc.status === 'ready'
-                                                                ? 'bg-green-500'
-                                                                : doc.status === 'processing'
-                                                                    ? 'bg-yellow-500 animate-pulse'
-                                                                    : doc.status === 'failed'
-                                                                        ? 'bg-red-500'
-                                                                        : 'bg-gray-400'
-                                                        )}
-                                                    />
-                                                </div>
-
-                                                {/* Icon and Title */}
-                                                <div className="flex gap-3 mb-4">
-                                                    <div className="flex-shrink-0">
-                                                        <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                                                            <FileText className="h-5 w-5 text-primary" />
-                                                        </div>
-                                                    </div>
-                                                    <div className="flex-1 min-w-0">
-                                                        <h3 className="font-semibold text-sm truncate text-foreground group-hover:text-primary transition-colors">
-                                                            {doc.name}
-                                                        </h3>
-                                                        <p className="text-xs text-muted-foreground mt-1">
-                                                            {formatFileSize(doc.size)} • {doc.mime_type.split('/')[1]?.toUpperCase() || '文件'}
-                                                        </p>
-                                                    </div>
-                                                </div>
-
-                                                {/* Status Badge */}
-                                                <span
-                                                    className={cn(
-                                                        'inline-block text-xs px-2.5 py-1 rounded-md font-medium mt-3 transition-all',
-                                                        doc.status === 'ready'
-                                                            ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400'
-                                                            : doc.status === 'processing'
-                                                                ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 animate-pulse'
-                                                                : doc.status === 'failed'
-                                                                    ? 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400'
-                                                                    : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-400'
-                                                    )}
-                                                >
-                                                    {doc.status === 'ready'
-                                                        ? '就绪'
-                                                        : doc.status === 'processing'
-                                                            ? '处理中'
-                                                            : doc.status === 'failed'
-                                                                ? '失败'
-                                                                : '待处理'}
-                                                </span>
-
-                                                {/* Actions */}
-                                                <div className="flex gap-2 pt-4 border-t border-border/20">
-                                                    <Button
-                                                        variant="outline"
-                                                        size="sm"
-                                                        className="flex-1 text-xs h-9"
-                                                        onClick={() => handleViewDocument(doc)}
-                                                        disabled={doc.status !== 'ready'}
-                                                        title={doc.status !== 'ready' ? '文档处理中，暂无法查看' : ''}
-                                                    >
-                                                        <Eye className="h-3.5 w-3.5 mr-1.5" />
-                                                        查看
-                                                    </Button>
-                                                    <Button
-                                                        variant="ghost"
-                                                        size="sm"
-                                                        onClick={() => handleDelete(doc.id)}
-                                                        disabled={deleteMutation.isPending}
-                                                        className="text-destructive hover:text-destructive hover:bg-destructive/10 h-9 px-3"
-                                                        title="删除文档"
-                                                    >
-                                                        <Trash2 className="h-3.5 w-3.5" />
-                                                    </Button>
-                                                </div>
-                                            </CardContent>
-                                        </Card>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
-                    )}
+          {/* Upload Section */}
+          <Card className="animate-fadeInUp" style={{ animationDelay: '80ms' }}>
+            <CardContent className="pt-6">
+              <div
+                className="border-2 border-dashed border-primary/30 rounded-xl p-6 md:p-8 text-center hover:border-primary/50 hover:bg-primary/5 transition-all duration-200 cursor-pointer group"
+                onClick={() => fileInputRef.current?.click()}
+              >
+                <div className="inline-flex items-center justify-center h-12 w-12 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors mb-4">
+                  <Upload className="h-6 w-6 text-primary" />
                 </div>
-            </ScrollablePageLayout>
-
-            {/* Document Viewer */}
-            {selectedDoc && (
-                <DocumentViewer
-                    open={viewerOpen}
-                    onOpenChange={setViewerOpen}
-                    document={selectedDoc}
+                <h3 className="font-semibold text-base md:text-lg text-foreground">上传文档</h3>
+                <p className="text-xs md:text-sm text-muted-foreground mt-2">
+                  拖拽或点击选择，支持 PDF、Word、Markdown 等多种格式
+                </p>
+                <Button variant="outline" size="sm" className="mt-4">
+                  选择文件
+                </Button>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  multiple
+                  onChange={handleFileSelect}
+                  className="hidden"
+                  accept=".pdf,.doc,.docx,.md,.txt,.xls,.xlsx,.json,.xml,.csv,.ppt,.pptx,.jpg,.jpeg,.png,.gif"
                 />
-            )}
-        </PageTransition>
-    );
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Loading/Error/Empty States */}
+          {isLoading && (
+            <div className="flex justify-center py-12 animate-fadeInUp">
+              <LoadingSpinner size="lg" />
+            </div>
+          )}
+
+          {error && (
+            <div className="rounded-lg bg-destructive/10 p-4 text-sm text-destructive border border-destructive/20 animate-fadeInUp">
+              加载文档失败: {error.message}
+            </div>
+          )}
+
+          {!isLoading && !error && documents.length === 0 && (
+            <div className="text-center py-16">
+              <div className="inline-flex items-center justify-center h-14 w-14 rounded-lg bg-muted mb-4">
+                <FileText className="h-7 w-7 text-muted-foreground/60" />
+              </div>
+              <h3 className="text-lg font-semibold">还没有文档</h3>
+              <p className="text-sm text-muted-foreground mt-2">上传您的第一个文档以开始</p>
+            </div>
+          )}
+
+          {/* Document Grid */}
+          {!isLoading && !error && documents.length > 0 && (
+            <div className="space-y-4">
+              <DocumentTabs 
+                  documents={documents}
+                  activeTab={activeTab}
+                  onTabChange={setActiveTab}
+              />
+              <div className="grid gap-4 md:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+                {filteredDocuments.map((doc, idx) => (
+                    <Card
+                        key={doc.id}
+                        className="group overflow-hidden animate-scaleIn transition-all duration-300 hover:shadow-enhance hover:-translate-y-1"
+                        style={{ animationDelay: `${240 + idx * 60}ms` }}
+                    >
+                      <CardContent className="pt-5 relative">
+                        {/* Status Indicator */}
+                        <div className="absolute top-4 right-4">
+                          <div
+                            className={cn(
+                              'w-2.5 h-2.5 rounded-full transition-all',
+                              doc.status === 'ready'
+                                  ? 'bg-green-500'
+                                  : doc.status === 'processing'
+                                      ? 'bg-yellow-500 animate-pulse'
+                                      : doc.status === 'failed'
+                                          ? 'bg-red-500'
+                                          : 'bg-gray-400'
+                            )}
+                          />
+                        </div>
+
+                        {/* Icon and Title */}
+                        <div className="flex gap-3 mb-4">
+                          <div className="flex-shrink-0">
+                            <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                              <FileText className="h-5 w-5 text-primary" />
+                            </div>
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <h3 className="font-semibold text-sm truncate text-foreground group-hover:text-primary transition-colors">
+                              {doc.name}
+                            </h3>
+                            <p className="text-xs text-muted-foreground mt-1">
+                              {formatFileSize(doc.size)} • {doc.mime_type.split('/')[1]?.toUpperCase() || '文件'}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Status Badge */}
+                        <span
+                          className={cn(
+                            'inline-block text-xs px-2.5 py-1 rounded-md font-medium mt-3 transition-all',
+                            doc.status === 'ready'
+                                ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400'
+                                : doc.status === 'processing'
+                                    ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 animate-pulse'
+                                    : doc.status === 'failed'
+                                        ? 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400'
+                                        : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-400'
+                          )}
+                        >
+                          {doc.status === 'ready'
+                              ? '就绪'
+                              : doc.status === 'processing'
+                                  ? '处理中'
+                                  : doc.status === 'failed'
+                                      ? '失败'
+                                      : '待处理'}
+                        </span>
+
+                        {/* Actions */}
+                        <div className="flex gap-2 pt-4 border-t border-border/20">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="flex-1 text-xs h-9"
+                            onClick={() => handleViewDocument(doc)}
+                            disabled={doc.status !== 'ready'}
+                            title={doc.status !== 'ready' ? '文档处理中，暂无法查看' : ''}
+                          >
+                            <Eye className="h-3.5 w-3.5 mr-1.5" />
+                            查看
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleDelete(doc.id)}
+                            disabled={deleteMutation.isPending}
+                            className="text-destructive hover:text-destructive hover:bg-destructive/10 h-9 px-3"
+                            title="删除文档"
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* 这个 div 会自动添加安全间距，防止 TabBar 遮挡 */}
+        </div>
+      </ScrollablePageLayout>
+
+      {/* Document Viewer */}
+      {selectedDoc && (
+        <DocumentViewer
+          open={viewerOpen}
+          onOpenChange={setViewerOpen}
+          document={selectedDoc}
+        />
+      )}
+    </PageTransition>
+  );
 }

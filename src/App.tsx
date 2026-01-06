@@ -1,24 +1,24 @@
+import { useEffect } from 'react';
 import { RouterProvider } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { router } from './routes';
 import { ThemeProvider } from '@/shared/components/ThemeProvider';
-
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 5 * 60 * 1000,
-      retry: 1,
-    },
-  },
-});
+import { router } from './routes';
+import { debugLayoutHeights } from '@/shared/utils/layoutDebug';
 
 function App() {
+  useEffect(() => {
+    // 开发环境：监听高度变化
+    if (process.env.NODE_ENV === 'development') {
+      const timer = setTimeout(() => {
+        debugLayoutHeights();
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
   return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider>
-        <RouterProvider router={router} />
-      </ThemeProvider>
-    </QueryClientProvider>
+    <ThemeProvider>
+      <RouterProvider router={router} />
+    </ThemeProvider>
   );
 }
 
