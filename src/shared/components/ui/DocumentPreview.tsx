@@ -126,52 +126,125 @@ export function DocumentPreview({
     );
   }
 
-  // PDF 提示
+  // PDF 提示 - 优化宽度
   if (docType === 'pdf') {
     return (
       <div
         className={cn(
-          'flex items-center justify-center w-full rounded-lg border border-border/30 bg-muted transition-opacity duration-300',
+          'flex items-center justify-center w-full rounded-lg border border-border/30 bg-gradient-to-br from-muted to-muted/50 transition-all duration-300',
+          'hover:border-primary/30 hover:shadow-md',
           fadeIn ? 'opacity-100' : 'opacity-0',
           className
         )}
         style={{
           height: 'min(80vh, calc(100dvh - 200px))',
+          // H5: 最小宽度充分利用，Web: 自适应宽度
+          minWidth: '100%',
         }}
       >
-        <div className="text-center space-y-4 animate-fadeInUp px-4">
-          <div className="inline-flex items-center justify-center h-12 w-12 rounded-lg bg-primary/10">
-            <FileText className="h-6 w-6 text-primary" />
+        <div className="text-center space-y-4 md:space-y-6 animate-fadeInUp px-4 md:px-12 max-w-xl">
+          {/* Icon Container - 响应式大小 */}
+          <div className="flex justify-center">
+            <div className="inline-flex items-center justify-center h-16 md:h-20 w-16 md:w-20 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/10 ring-1 ring-primary/20 group-hover:ring-primary/40 transition-all">
+              <FileText className="h-8 md:h-10 w-8 md:w-10 text-primary" />
+            </div>
           </div>
-          <div>
-            <p className="text-sm font-medium">PDF 文档</p>
-            <p className="text-xs text-muted-foreground mt-1">请下载文件查看完整内容</p>
+
+          {/* Title - 响应式字体 */}
+          <div className="space-y-2 md:space-y-3">
+            <h3 className="text-base md:text-lg lg:text-xl font-semibold text-foreground">
+              PDF 文档预览
+            </h3>
+            <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">
+              此 PDF 文档无法在线预览。请点击下方按钮下载文件，使用 PDF 阅读器查看完整内容。
+            </p>
+          </div>
+
+          {/* Features List - 仅 Web 显示 */}
+          <div className="hidden md:grid md:grid-cols-2 gap-3 md:gap-4 pt-2 md:pt-4">
+            <div className="text-left space-y-1.5 p-3 rounded-lg bg-background/50 border border-border/30">
+              <p className="text-xs font-medium text-primary flex items-center gap-2">
+                <span className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-primary/20 text-primary text-xs">✓</span>
+                完整保存
+              </p>
+              <p className="text-xs text-muted-foreground">保留原始格式和内容</p>
+            </div>
+            <div className="text-left space-y-1.5 p-3 rounded-lg bg-background/50 border border-border/30">
+              <p className="text-xs font-medium text-primary flex items-center gap-2">
+                <span className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-primary/20 text-primary text-xs">✓</span>
+                离线查看
+              </p>
+              <p className="text-xs text-muted-foreground">随时随地打开查看</p>
+            </div>
+          </div>
+
+          {/* Action Button */}
+          <div className="pt-2 md:pt-4">
+            <p className="text-xs text-muted-foreground mb-3">
+              推荐使用 Adobe Reader、Chrome 或其他 PDF 阅读器
+            </p>
           </div>
         </div>
       </div>
     );
   }
 
-  // Excel 提示
+  // Excel 提示 - 同样优化
   if (docType === 'excel') {
     return (
       <div
         className={cn(
-          'flex items-center justify-center w-full rounded-lg border border-border/30 bg-muted transition-opacity duration-300',
+          'flex items-center justify-center w-full rounded-lg border border-border/30 bg-gradient-to-br from-muted to-muted/50 transition-all duration-300',
+          'hover:border-primary/30 hover:shadow-md',
           fadeIn ? 'opacity-100' : 'opacity-0',
           className
         )}
         style={{
           height: 'min(80vh, calc(100dvh - 200px))',
+          minWidth: '100%',
         }}
       >
-        <div className="text-center space-y-4 animate-fadeInUp px-4">
-          <div className="inline-flex items-center justify-center h-12 w-12 rounded-lg bg-primary/10">
-            <FileText className="h-6 w-6 text-primary" />
+        <div className="text-center space-y-4 md:space-y-6 animate-fadeInUp px-4 md:px-12 max-w-xl">
+          {/* Icon Container */}
+          <div className="flex justify-center">
+            <div className="inline-flex items-center justify-center h-16 md:h-20 w-16 md:w-20 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/10 ring-1 ring-primary/20 group-hover:ring-primary/40 transition-all">
+              <FileText className="h-8 md:h-10 w-8 md:w-10 text-primary" />
+            </div>
           </div>
-          <div>
-            <p className="text-sm font-medium">表格文档</p>
-            <p className="text-xs text-muted-foreground mt-1">请下载文件在 Excel 中查看</p>
+
+          {/* Title */}
+          <div className="space-y-2 md:space-y-3">
+            <h3 className="text-base md:text-lg lg:text-xl font-semibold text-foreground">
+              表格文档预览
+            </h3>
+            <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">
+              此表格文档无法在线预览。请点击下方按钮下载文件，使用 Excel、Google Sheets 或其他电子表格应用查看。
+            </p>
+          </div>
+
+          {/* Features List - 仅 Web 显示 */}
+          <div className="hidden md:grid md:grid-cols-2 gap-3 md:gap-4 pt-2 md:pt-4">
+            <div className="text-left space-y-1.5 p-3 rounded-lg bg-background/50 border border-border/30">
+              <p className="text-xs font-medium text-primary flex items-center gap-2">
+                <span className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-primary/20 text-primary text-xs">✓</span>
+                公式保留
+              </p>
+              <p className="text-xs text-muted-foreground">保留所有公式和计算</p>
+            </div>
+            <div className="text-left space-y-1.5 p-3 rounded-lg bg-background/50 border border-border/30">
+              <p className="text-xs font-medium text-primary flex items-center gap-2">
+                <span className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-primary/20 text-primary text-xs">✓</span>
+                格式完整
+              </p>
+              <p className="text-xs text-muted-foreground">保留图表、样式等内容</p>
+            </div>
+          </div>
+
+          {/* Info */}
+          <div className="pt-2 md:pt-4">
+            <p className="text-xs text-muted-foreground">
+              支持的应用：Excel、Google Sheets、LibreOffice 等
+            </p>
           </div>
         </div>
       </div>
