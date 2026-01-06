@@ -358,7 +358,7 @@ export default function SettingsPage() {
                         </CardContent>
                     </Card>
 
-                    {/* Notification Settings - 重构版本 */}
+                    {/* Notification Settings */}
                     <Card className="animate-fadeInUp" style={{ animationDelay: '320ms' }}>
                         <CardHeader className="space-y-1">
                             <div className="flex items-center gap-2">
@@ -367,43 +367,45 @@ export default function SettingsPage() {
                             </div>
                             <p className="text-xs text-muted-foreground">管理应用通知和提醒</p>
                         </CardHeader>
-                        <CardContent className="space-y-2">
+                        <CardContent className="space-y-0 divide-y divide-border/30">
                           {notificationItems.map((item) => {
                             const isEnabled = notifications[item.key];
                             return (
                               <div
                                 key={item.id}
-                                className={cn(
-                                  'flex items-center justify-between gap-3 md:gap-4 p-3 md:p-4 rounded-lg border-2 transition-all duration-300',
-                                  isEnabled
-                                    ? 'border-primary/30 bg-primary/5'
-                                    : 'border-border/30 bg-muted/20'
-                                )}
+                                className="flex items-center justify-between gap-4 py-4 first:pt-0 last:pb-0 transition-all duration-200"
                               >
-                                {/* Left Content */}
-                                <div className="flex items-center gap-3 md:gap-4 flex-1 min-w-0">
-                                  {/* Icon */}
-                                  <div className="flex-shrink-0 h-5 w-5 text-primary/70">
+                                {/* Left: Icon + Text Content */}
+                                <div className="flex items-start gap-3 md:gap-4 flex-1 min-w-0">
+                                  {/* Icon - Fixed size */}
+                                  <div className={cn(
+                                    'flex-shrink-0 h-5 w-5 rounded-lg flex items-center justify-center mt-0.5 transition-colors',
+                                    isEnabled ? 'bg-primary/15 text-primary' : 'bg-muted text-muted-foreground'
+                                  )}>
                                     {item.icon}
                                   </div>
 
                                   {/* Text Content */}
                                   <div className="flex-1 min-w-0">
-                                    <p className="font-medium text-sm text-foreground">
+                                    <h5 className={cn(
+                                      'text-sm font-medium transition-colors',
+                                      isEnabled ? 'text-foreground' : 'text-muted-foreground'
+                                    )}>
                                       {item.title}
-                                    </p>
-                                    <p className="text-xs text-muted-foreground mt-0.5">
+                                    </h5>
+                                    <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
                                       {item.description}
                                     </p>
                                   </div>
                                 </div>
 
-                                {/* Switch */}
-                                <Switch
-                                  checked={isEnabled}
-                                  onCheckedChange={() => handleNotificationChange(item.key)}
-                                  className="flex-shrink-0"
-                                />
+                                {/* Right: Switch - Fixed size */}
+                                <div className="flex-shrink-0 ml-4">
+                                  <Switch
+                                    checked={isEnabled}
+                                    onCheckedChange={() => handleNotificationChange(item.key)}
+                                  />
+                                </div>
                               </div>
                             );
                           })}
