@@ -18,7 +18,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       root.classList.remove('dark');
     }
 
-    // 应用配色方案（支持亮色和暗色）
+    // ✅ 应用配色方案（支持亮色和暗色）
     const scheme = COLOR_SCHEMES[colorScheme];
     
     const styles = isDark 
@@ -29,8 +29,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
           `--secondary-foreground: 0 0% 100%`,
           `--muted: ${scheme.darkMuted}`,
           `--muted-foreground: ${scheme.darkMutedForeground}`,
-          `--accent: ${scheme.darkPrimary}`,
-          `--accent-foreground: 0 0% 100%`,
+          `--accent: ${scheme.accent}`,
+          `--accent-foreground: ${scheme.accentForeground}`,
           `--background: 0 0% 8%`,
           `--foreground: 0 0% 98%`,
           `--card: 0 0% 12%`,

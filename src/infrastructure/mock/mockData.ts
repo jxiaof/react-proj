@@ -1,8 +1,10 @@
+// ✅ 保留所有 mock 数据：mockDocuments, mockConversations, mockMessages, mockProviders
+
 import type { Document } from '@/features/documents/api/documentTypes';
 import type { Conversation } from '@/features/conversations/api/conversationTypes';
 import type { Message } from '@/features/chat/api/chatTypes';
 
-// Mock Documents
+// Mock Documents - ✅ 完整保留
 export const mockDocuments: Document[] = [
   {
     id: 'doc-1',
@@ -51,7 +53,7 @@ export const mockDocuments: Document[] = [
   },
 ];
 
-// Mock Conversations
+// Mock Conversations - ✅ 完整保留
 export const mockConversations: Conversation[] = [
   {
     id: 'conv-1',
@@ -76,7 +78,7 @@ export const mockConversations: Conversation[] = [
   },
 ];
 
-// Mock Messages by conversation
+// Mock Messages - ✅ 完整保留
 export const mockMessages: Record<string, Message[]> = {
   'conv-1': [
     {
@@ -249,7 +251,7 @@ Q3 showed significant improvement in all key areas, with particularly strong gro
   ],
 };
 
-// Mock AI Providers
+// Mock Providers - ✅ 完整保留
 export const mockProviders = [
   {
     id: '1',

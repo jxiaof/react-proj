@@ -13,7 +13,7 @@ export function debugLayoutHeights() {
   const viewport = window.innerHeight;
   const headerH = header?.offsetHeight ?? 0;
   const mainH = main?.offsetHeight ?? 0;
-  const navH = mobileNav?.offsetHeight ?? 0;
+  const navH = (mobileNav as HTMLElement)?.offsetHeight ?? 0;
 
   const htmlH = html.scrollHeight;
   const bodyH = body.scrollHeight;
@@ -49,6 +49,6 @@ export function monitorHeightChanges() {
 }
 
 // 快捷调用
-if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
+if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
   (window as unknown as Record<string, typeof debugLayoutHeights>).debugLayout = debugLayoutHeights;
 }

@@ -5,6 +5,7 @@ import { Card } from '@/shared/components/ui/Card';
 
 
 export interface ModelConfig {
+    id?: string;
     name: string;
     model: string;
     description: string;
@@ -21,7 +22,7 @@ interface ModelEditDialogProps {
         model: string;
         description: string;
         isDefault: boolean;
-    } | null;
+    } | null | undefined;
 }
 
 export function ModelEditDialog({ open, onOpenChange, onConfirm, model }: ModelEditDialogProps) {

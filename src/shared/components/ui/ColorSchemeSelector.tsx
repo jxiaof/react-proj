@@ -91,7 +91,7 @@ export function ColorSchemeSelector() {
 								)}
 								style={{
 									backgroundColor: color,
-									ringColor: colorScheme === key ? color : undefined,
+								boxShadow: colorScheme === key ? `0 0 0 3px var(--background), 0 0 0 5px ${color}` : undefined,
 								}}
 								title={label}
 							/>
@@ -116,7 +116,7 @@ export function ColorSchemeSelector() {
 								)}
 								style={{
 									backgroundColor: color,
-									ringColor: colorScheme === key ? color : undefined,
+									boxShadow: colorScheme === key ? `0 0 0 3px var(--background), 0 0 0 5px ${color}` : undefined,
 								}}
 								title={label}
 							/>

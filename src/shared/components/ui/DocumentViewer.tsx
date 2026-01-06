@@ -17,7 +17,7 @@ interface DocumentViewerProps {
   };
 }
 
-export function DocumentViewer({ open, onOpenChange, document }: DocumentViewerProps) {
+export function DocumentViewer({ open, onOpenChange, document: doc }: DocumentViewerProps) {
   const [isLoading] = useState(false);
 
   if (!open) return null;
@@ -68,10 +68,10 @@ export function DocumentViewer({ open, onOpenChange, document }: DocumentViewerP
               </div>
               <div className="min-w-0 flex-1">
                 <p className="text-xs md:text-sm font-semibold truncate text-foreground">
-                  {document.name}
+                  {doc.name}
                 </p>
                 <p className="text-xs text-muted-foreground hidden sm:block">
-                  {(document.size / 1024).toFixed(2)} KB
+                  {(doc.size / 1024).toFixed(2)} KB
                 </p>
               </div>
             </div>
@@ -83,7 +83,7 @@ export function DocumentViewer({ open, onOpenChange, document }: DocumentViewerP
                 size="icon"
                 onClick={() => {
                   // 下载文档逻辑
-                  console.log('Download:', document.name);
+                  console.log('Download:', doc.name);
                 }}
                 className="h-8 w-8 md:h-10 md:w-10 hover:bg-muted"
                 title="下载文档"
@@ -120,10 +120,10 @@ export function DocumentViewer({ open, onOpenChange, document }: DocumentViewerP
               */}
               <div className="w-full max-w-5xl px-2 py-4 md:px-6 md:py-6">
                 <DocumentPreview
-                  document={document}
-                  content={document.content}
+                  document={doc}
+                  content={doc.content}
                   isLoading={isLoading}
-                  error={!document.content ? '文档内容不可用' : undefined}
+                  error={!doc.content ? '文档内容不可用' : undefined}
                   className="w-full"
                 />
               </div>
@@ -144,9 +144,9 @@ export function DocumentViewer({ open, onOpenChange, document }: DocumentViewerP
               size="sm"
               onClick={() => {
                 // 打开新标签页下载
-                const link = document.createElement('a');
-                link.href = document.content || '#';
-                link.download = document.name;
+                const link = document.createElement('a') as HTMLAnchorElement;
+                link.href = doc.content || '#';
+                link.download = doc.name;
                 link.click();
               }}
               className="text-xs md:text-sm h-8 md:h-10 px-3 md:px-4"

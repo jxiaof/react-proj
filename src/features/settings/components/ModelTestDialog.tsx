@@ -19,12 +19,11 @@ export function ModelTestDialog({ open, onOpenChange, modelName, modelId }: Mode
     const [testStatus, setTestStatus] = useState<TestStatus>('idle');
     const [testHistory, setTestHistory] = useState<Array<{ q: string; a: string; time: string }>>([]);
 
-    const handleTest = async (e: React.FormEvent) => {
-        e.preventDefault();
+    const handleTest = async (e?: React.FormEvent) => {
+        e?.preventDefault();
         if (!testInput.trim()) return;
 
         setTestStatus('testing');
-        setTestError('');
         setTestResponse('');
 
         // 模拟API调用
@@ -55,7 +54,6 @@ export function ModelTestDialog({ open, onOpenChange, modelName, modelId }: Mode
         setTestInput('');
         setTestResponse('');
         setTestStatus('idle');
-        setTestError('');
     };
 
     if (!open) return null;

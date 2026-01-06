@@ -1,10 +1,10 @@
 export * from './Button';
 export * from './Card';
-export * from './Input';
-export * from './Textarea';
-export * from './Tabs';
-export * from './Label';
-export * from './Dialog';
+// export * from './Input';
+// export * from './Textarea';
+// export * from './Tabs';
+// export * from './Label';
+// export * from './Dialog';
 export * from './ThemeToggle';
 export * from './Logo';
 export * from './ColorSchemeSelector';

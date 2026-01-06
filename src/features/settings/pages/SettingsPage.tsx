@@ -74,7 +74,7 @@ const notificationItems: NotificationItem[] = [
 export default function SettingsPage() {
     const { theme, setTheme, colorScheme, setColorScheme } = useThemeStore();
     const [showAddModelDialog, setShowAddModelDialog] = useState(false);
-    const [editingModel, setEditingModel] = useState<ModelConfig | null>(null);
+    const [editingModel, setEditingModel] = useState<{ id: string; name: string; model: string; description: string; isDefault: boolean } | null>(null);
     const [testingModel, setTestingModel] = useState<{ name: string; id: string } | null>(null);
     const [deleteConfirm, setDeleteConfirm] = useState<{ id: string; name: string } | null>(null);
     
@@ -102,6 +102,7 @@ export default function SettingsPage() {
     };
 
     const handleEditModel = (data: ModelConfig) => {
+      if (!editingModel || !editingModel.id) return;
       setProviders(prev =>
         prev.map(p =>
           p.id === editingModel.id
@@ -439,7 +440,7 @@ export default function SettingsPage() {
               open={!!editingModel}
               onOpenChange={() => setEditingModel(null)}
               onConfirm={handleEditModel}
-              model={editingModel}
+              model={editingModel ? { ...editingModel, id: editingModel.id || '' } : null}
             />
 
             {/* Test Model Dialog */}

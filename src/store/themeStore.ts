@@ -26,7 +26,6 @@ export const COLOR_SCHEMES = {
     mutedForeground: '120 10% 45%',
     accent: '142 71% 85%',
     accentForeground: '142 71% 35%',
-    // 暗色模式
     darkPrimary: '142 71% 55%',
     darkSecondary: '142 40% 25%',
     darkMuted: '142 20% 20%',
@@ -137,7 +136,6 @@ export const COLOR_SCHEMES = {
     darkMuted: '226 30% 20%',
     darkMutedForeground: '226 20% 65%',
   },
-  // 再添加 8 种...（省略重复代码）
 } as const;
 
 export type ColorSchemeKey = keyof typeof COLOR_SCHEMES;
@@ -149,11 +147,12 @@ interface ThemeState {
   setColorScheme: (scheme: ColorSchemeKey) => void;
 }
 
+// ✅ 改进：默认配色改为蓝色 (blue)
 export const useThemeStore = create<ThemeState>()(
   persist(
     (set) => ({
       theme: 'system',
-      colorScheme: 'green',
+      colorScheme: 'blue', // ✅ 改为蓝色
       setTheme: (theme) => set({ theme }),
       setColorScheme: (scheme) => set({ colorScheme: scheme }),
     }),

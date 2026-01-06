@@ -7,7 +7,8 @@ import { debugLayoutHeights } from '@/shared/utils/layoutDebug';
 function App() {
   useEffect(() => {
     // 开发环境：监听高度变化
-    if (process.env.NODE_ENV === 'development') {
+    const isDev = typeof window !== 'undefined' && window.location.hostname === 'localhost';
+    if (isDev) {
       const timer = setTimeout(() => {
         debugLayoutHeights();
       }, 1000);
