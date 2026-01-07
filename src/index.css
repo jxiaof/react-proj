@@ -143,7 +143,7 @@
   @keyframes pageEnter {
     from {
       opacity: 0;
-      transform: translateY(8px);  /* 轻微下滑 */
+      transform: translateY(4px);  /* 轻微下滑 */
     }
     to {
       opacity: 1;
@@ -155,7 +155,7 @@
   @keyframes fadeInUp {
     from {
       opacity: 0;
-      transform: translateY(6px);  /* 减少到 6px - 更微妙 */
+      transform: translateY(3px);  /* 减少到 3px - 更微妙 */
     }
     to {
       opacity: 1;
@@ -167,7 +167,7 @@
   @keyframes fadeInDown {
     from {
       opacity: 0;
-      transform: translateY(-4px);  /* 对称设计 */
+      transform: translateY(-3px);  /* 对称设计 */
     }
     to {
       opacity: 1;
