@@ -68,7 +68,7 @@ export function ModelTestDialog({ open, onOpenChange, modelName, modelId }: Mode
 
             {/* Dialog */}
             <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
-                <Card className="w-full max-w-2xl pointer-events-auto animate-scaleIn shadow-2xl bg-card text-card-foreground max-h-[80vh] flex flex-col" style={{ animationDelay: '100ms' }}>
+                <Card className="w-full max-w-2xl pointer-events-auto animate-scaleIn shadow-2xl bg-card text-card-foreground max-h-[80vh] flex flex-col">
                     {/* Header */}
                     <div className="flex items-center justify-between p-6 border-b border-border/30 flex-shrink-0">
                         <div className="flex items-center gap-3">
@@ -91,7 +91,7 @@ export function ModelTestDialog({ open, onOpenChange, modelName, modelId }: Mode
                     {/* Content - Scrollable */}
                     <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-background/50">
                         {/* Test Input */}
-                        <div className="space-y-2 animate-fadeInUp" style={{ animationDelay: '100ms' }}>
+                        <div className="space-y-2 animate-fadeInUp">
                             <label className="text-sm font-medium text-foreground">
                                 输入测试问题
                             </label>
@@ -122,7 +122,7 @@ export function ModelTestDialog({ open, onOpenChange, modelName, modelId }: Mode
 
                         {/* Test Response */}
                         {testResponse && (
-                            <div className="space-y-2 animate-fadeInUp" style={{ animationDelay: '200ms' }}>
+                            <div className="space-y-2 animate-fadeInUp">
                                 <div className="flex items-center gap-2">
                                     <label className="text-sm font-medium text-foreground">
                                         模型响应
@@ -148,7 +148,7 @@ export function ModelTestDialog({ open, onOpenChange, modelName, modelId }: Mode
 
                         {/* Test History */}
                         {testHistory.length > 0 && (
-                            <div className="space-y-2 animate-fadeInUp border-t pt-4" style={{ animationDelay: '300ms' }}>
+                            <div className="space-y-2 animate-fadeInUp border-t pt-4">
                                 <h4 className="text-sm font-semibold text-foreground">测试历史</h4>
                                 <div className="space-y-2">
                                     {testHistory.map((item, idx) => (

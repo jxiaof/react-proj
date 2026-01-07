@@ -76,7 +76,7 @@ export function ModelEditDialog({ open, onOpenChange, onConfirm, model }: ModelE
 
             {/* Dialog */}
             <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
-                <Card className="w-full max-w-md pointer-events-auto animate-scaleIn shadow-2xl bg-card text-card-foreground" style={{ animationDelay: '100ms' }}>
+                <Card className="w-full max-w-md pointer-events-auto animate-scaleIn shadow-2xl bg-card text-card-foreground">
                     {/* Header */}
                     <div className="flex items-center justify-between p-6 border-b border-border/30">
                         <div className="flex items-center gap-3">
@@ -97,7 +97,7 @@ export function ModelEditDialog({ open, onOpenChange, onConfirm, model }: ModelE
                     <div className="p-6 bg-background/50">
                         <form onSubmit={handleSubmit} className="space-y-4">
                             {/* Model Name */}
-                            <div className="space-y-2 animate-fadeInUp" style={{ animationDelay: '100ms' }}>
+                            <div className="space-y-2 animate-fadeInUp">
                                 <label className="text-sm font-medium text-foreground">
                                     模型名称 *
                                 </label>
@@ -113,7 +113,7 @@ export function ModelEditDialog({ open, onOpenChange, onConfirm, model }: ModelE
                             </div>
 
                             {/* Model ID */}
-                            <div className="space-y-2 animate-fadeInUp" style={{ animationDelay: '150ms' }}>
+                            <div className="space-y-2 animate-fadeInUp">
                                 <label className="text-sm font-medium text-foreground">
                                     模型 ID *
                                 </label>
@@ -129,7 +129,7 @@ export function ModelEditDialog({ open, onOpenChange, onConfirm, model }: ModelE
                             </div>
 
                             {/* Description */}
-                            <div className="space-y-2 animate-fadeInUp" style={{ animationDelay: '200ms' }}>
+                            <div className="space-y-2 animate-fadeInUp" >
                                 <label className="text-sm font-medium text-foreground">
                                     描述
                                 </label>
@@ -144,7 +144,7 @@ export function ModelEditDialog({ open, onOpenChange, onConfirm, model }: ModelE
                             </div>
 
                             {/* Set as Default */}
-                            <div className="flex items-center gap-3 animate-fadeInUp p-3 rounded-lg bg-muted/30 border border-border/30" style={{ animationDelay: '250ms' }}>
+                            <div className="flex items-center gap-3 animate-fadeInUp p-3 rounded-lg bg-muted/30 border border-border/30">
                                 <input
                                     type="checkbox"
                                     name="isDefault"
@@ -159,7 +159,7 @@ export function ModelEditDialog({ open, onOpenChange, onConfirm, model }: ModelE
                             </div>
 
                             {/* Buttons */}
-                            <div className="flex gap-3 pt-4 animate-fadeInUp" style={{ animationDelay: '300ms' }}>
+                            <div className="flex gap-3 pt-4 animate-fadeInUp">
                                 <Button
                                     type="button"
                                     variant="outline"

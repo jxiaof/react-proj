@@ -115,7 +115,6 @@ function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
             <div
               key={i}
               className="relative"
-              style={{ animationDelay: `${i * 50}ms` }}
             >
               <div className="absolute inset-0 bg-amber-400/20 rounded blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <Star

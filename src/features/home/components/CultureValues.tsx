@@ -57,7 +57,6 @@ export function CultureValues() {
 						<Card
 							key={value.id}
 							className="group hover:shadow-enhance transition-all duration-300 hover:-translate-y-1 overflow-hidden animate-scaleIn relative"
-							style={{ animationDelay: `${100 + idx * 80}ms` }}
 						>
 							{/* Gradient background overlay */}
 							<div
@@ -98,7 +97,7 @@ export function CultureValues() {
 			</div>
 
 			{/* Tagline */}
-			<div className="text-center pt-6 md:pt-10 animate-fadeInUp" style={{ animationDelay: '500ms' }}>
+			<div className="text-center pt-6 md:pt-10 animate-fadeInUp">
 				<p className="text-lg md:text-xl lg:text-2xl font-semibold text-foreground">
 					持续进化：
 					<span className="bg-gradient-to-r from-primary via-primary/80 to-primary bg-clip-text text-transparent ml-2">

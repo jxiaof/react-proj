@@ -106,7 +106,6 @@ export default function HomePage() {
                 {/* Main Heading */}
                 <h1
                   className="text-3xl md:text-5xl lg:text-7xl font-bold tracking-tight animate-fadeInUp leading-tight"
-                  style={{ animationDelay: '80ms' }}
                 >
                   让文档开口说话
                   <br />
@@ -118,7 +117,6 @@ export default function HomePage() {
                 {/* Subheading */}
                 <p
                   className="text-base md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed animate-fadeInUp"
-                  style={{ animationDelay: '160ms' }}
                 >
                   上传您的文档，即刻获得 AI 助手。无论是研报分析、合同审查还是技术文档检索，
                   我们帮助您从海量信息中快速获取答案。
@@ -127,7 +125,6 @@ export default function HomePage() {
                 {/* CTA Buttons */}
                 <div
                   className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center pt-4 md:pt-6 animate-fadeInUp"
-                  style={{ animationDelay: '240ms' }}
                 >
                   <Link to="/chat" className="w-full sm:w-auto">
                     <Button size="lg" className="w-full text-sm md:text-base px-6 md:px-8 bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary/80 shadow-md hover:shadow-lg hover:shadow-primary/25 transition-all duration-300 active:scale-95">
@@ -149,7 +146,7 @@ export default function HomePage() {
             </section>
 
             {/* Stats Section - 优化设计，减少上下间距 */}
-            <section className="py-8 md:py-12 bg-gradient-to-r from-primary/3 via-background to-primary/3 rounded-2xl animate-fadeInUp px-4 md:px-6" style={{ animationDelay: '320ms' }}>
+            <section className="py-8 md:py-12 bg-gradient-to-r from-primary/3 via-background to-primary/3 rounded-2xl animate-fadeInUp px-4 md:px-6">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
                 {stats.map((stat, idx) => {
                   const Icon = stat.icon;
@@ -157,7 +154,6 @@ export default function HomePage() {
                     <div
                       key={stat.label}
                       className="text-center space-y-2 group cursor-pointer transition-all duration-300 hover:scale-105 relative"
-                      style={{ animationDelay: `${400 + idx * 60}ms` }}
                     >
                       {/* Background glow effect */}
                       <div className={`absolute inset-0 rounded-lg bg-gradient-to-br ${stat.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300 blur-xl -z-10`} />
@@ -176,7 +172,7 @@ export default function HomePage() {
             </section>
 
             {/* Features Section - 彩色卡片网格 */}
-            <section className="space-y-10 md:space-y-12 animate-fadeInUp" style={{ animationDelay: '560ms' }}>
+            <section className="space-y-10 md:space-y-12 animate-fadeInUp">
               <div className="text-center space-y-3 md:space-y-4">
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold">核心功能</h2>
                 <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -191,7 +187,6 @@ export default function HomePage() {
                     <Card
                       key={feature.title}
                       className="group overflow-hidden hover:shadow-enhance animate-scaleIn hover:-translate-y-1 transition-all duration-300"
-                      style={{ animationDelay: `${640 + idx * 60}ms` }}
                     >
                       {/* Gradient background overlay */}
                       <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300 rounded-full blur-3xl -mr-16 -mt-16`} />
@@ -222,7 +217,7 @@ export default function HomePage() {
             </section>
 
             {/* Awards Section - 增强视觉效果 */}
-            <section className="py-12 md:py-16 animate-fadeInUp" style={{ animationDelay: '880ms' }}>
+            <section className="py-12 md:py-16 animate-fadeInUp">
               <div className="text-center space-y-8 md:space-y-12">
                 <h2 className="text-3xl md:text-4xl font-bold">荣誉资质</h2>
                 
@@ -233,7 +228,6 @@ export default function HomePage() {
                       <div
                         key={award.title}
                         className="group relative overflow-hidden rounded-xl border border-border/30 bg-background/50 animate-fadeInUp transition-all duration-300 hover:shadow-md hover:border-primary/50"
-                        style={{ animationDelay: `${960 + idx * 60}ms` }}
                       >
                         {/* Background glow effect */}
                         <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-primary/5 to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -269,12 +263,12 @@ export default function HomePage() {
             </section>
 
             {/* Culture Values Section */}
-            <div className="animate-fadeInUp" style={{ animationDelay: '1200ms' }}>
+            <div className="animate-fadeInUp" >
               <CultureValues />
             </div>
 
             {/* Testimonials Section */}
-            <section className="space-y-8 md:space-y-10 animate-fadeInUp" style={{ animationDelay: '1400ms' }}>
+            <section className="space-y-8 md:space-y-10 animate-fadeInUp" >
               <div className="text-center space-y-3 md:space-y-4">
                 <h2 className="text-3xl md:text-4xl font-bold">客户评价</h2>
                 <p className="text-base md:text-lg text-muted-foreground">来自各行业领先企业的真实反馈</p>
@@ -283,7 +277,7 @@ export default function HomePage() {
             </section>
 
             {/* Partners Section */}
-            <section className="space-y-8 md:space-y-10 animate-fadeInUp" style={{ animationDelay: '1600ms' }}>
+            <section className="space-y-8 md:space-y-10 animate-fadeInUp" >
               <div className="text-center space-y-3 md:space-y-4">
                 <h2 className="text-3xl md:text-4xl font-bold">合作伙伴</h2>
                 <p className="text-base md:text-lg text-muted-foreground">携手行业领先企业，共建智能生态</p>
@@ -293,7 +287,6 @@ export default function HomePage() {
                   <div
                     key={partner}
                     className="px-4 md:px-6 py-2.5 md:py-3 rounded-lg border border-border/30 bg-gradient-to-br from-background to-muted/30 text-muted-foreground font-medium text-xs md:text-sm hover:border-primary/50 hover:bg-primary/5 hover:text-primary hover:shadow-sm hover:scale-105 transition-all duration-300 animate-scaleIn cursor-pointer"
-                    style={{ animationDelay: `${1680 + idx * 40}ms` }}
                   >
                     {partner}
                   </div>
@@ -304,7 +297,6 @@ export default function HomePage() {
             {/* CTA Section */}
             <section
               className="py-12 md:py-16 bg-gradient-to-r from-primary via-primary/90 to-primary/80 text-primary-foreground rounded-2xl text-center animate-fadeInUp px-6 md:px-8 relative overflow-hidden"
-              style={{ animationDelay: '1920ms' }}
             >
               {/* Background effects */}
               <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl -mr-48 -mt-48" />
@@ -342,7 +334,7 @@ export default function HomePage() {
             </section>
 
             {/* Footer */}
-            <footer className="border-t border-border/30 pt-12 md:pt-16 animate-fadeInUp" style={{ animationDelay: '2080ms' }}>
+            <footer className="border-t border-border/30 pt-12 md:pt-16 animate-fadeInUp">
               <div className="space-y-8 md:space-y-12">
                 <div className="grid gap-6 md:gap-8 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                   {/* Company Info */}

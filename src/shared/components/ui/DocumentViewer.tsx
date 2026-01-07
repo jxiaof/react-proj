@@ -27,7 +27,6 @@ export function DocumentViewer({ open, onOpenChange, document: doc }: DocumentVi
       {/* Backdrop - 固定全屏 */}
       <div
         className="fixed inset-0 z-40 bg-black/50 animate-fadeInUp"
-        style={{ animationDelay: '0ms' }}
         onClick={() => onOpenChange(false)}
       />
 

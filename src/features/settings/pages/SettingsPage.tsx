@@ -154,7 +154,7 @@ export default function SettingsPage() {
                     </div>
 
                     {/* AI Providers Section */}
-                    <Card className="animate-fadeInUp" style={{ animationDelay: '80ms' }}>
+                    <Card className="animate-fadeInUp" >
                         <CardHeader className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
                             <div className="space-y-1">
                                 <div className="flex items-center gap-2">
@@ -177,7 +177,6 @@ export default function SettingsPage() {
                                 <div
                                     key={provider.id}
                                     className="group flex flex-col md:flex-row md:items-start md:justify-between rounded-lg border border-border/50 p-3 md:p-4 transition-all duration-300 hover:border-primary/50 hover:bg-primary/5 animate-fadeInUp"
-                                    style={{ animationDelay: `${160 + idx * 80}ms` }}
                                 >
                                     <div className="flex gap-3 flex-1 min-w-0 mb-3 md:mb-0">
                                         <div className="flex-shrink-0">
@@ -278,7 +277,7 @@ export default function SettingsPage() {
                     </Card>
 
                     {/* Theme Settings */}
-                    <Card className="animate-fadeInUp" style={{ animationDelay: '240ms' }}>
+                    <Card className="animate-fadeInUp" >
                         <CardHeader className="space-y-1">
                             <div className="flex items-center gap-2">
                                 <Palette className="h-5 w-5 text-primary" />
@@ -368,7 +367,7 @@ export default function SettingsPage() {
                     </Card>
 
                     {/* Notification Settings */}
-                    <Card className="animate-fadeInUp" style={{ animationDelay: '320ms' }}>
+                    <Card className="animate-fadeInUp">
                         <CardHeader className="space-y-1">
                             <div className="flex items-center gap-2">
                                 <Bell className="h-5 w-5 text-primary" />

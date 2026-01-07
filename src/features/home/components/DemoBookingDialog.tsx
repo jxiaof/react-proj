@@ -55,13 +55,12 @@ export function DemoBookingDialog({ open, onOpenChange }: DemoBookingDialogProps
       {/* Backdrop */}
       <div
         className="fixed inset-0 z-40 bg-black/50 animate-fadeInUp"
-        style={{ animationDelay: '0ms' }}
         onClick={() => onOpenChange(false)}
       />
 
       {/* Dialog */}
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
-        <Card className="w-full max-w-md pointer-events-auto animate-scaleIn bg-card text-card-foreground" style={{ animationDelay: '100ms' }}>
+        <Card className="w-full max-w-md pointer-events-auto animate-scaleIn bg-card text-card-foreground">
           {/* Header */}
           <div className="flex items-center justify-between p-6 border-b border-border/30">
             <div className="flex items-center gap-3">
@@ -105,7 +104,7 @@ export function DemoBookingDialog({ open, onOpenChange }: DemoBookingDialogProps
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
                 {/* Name */}
-                <div className="space-y-2 animate-fadeInUp" style={{ animationDelay: '100ms' }}>
+                <div className="space-y-2 animate-fadeInUp">
                   <label className="text-sm font-medium flex items-center gap-2 text-foreground">
                     <User className="h-4 w-4 text-primary" />
                     姓名 *
@@ -122,7 +121,7 @@ export function DemoBookingDialog({ open, onOpenChange }: DemoBookingDialogProps
                 </div>
 
                 {/* Email */}
-                <div className="space-y-2 animate-fadeInUp" style={{ animationDelay: '150ms' }}>
+                <div className="space-y-2 animate-fadeInUp">
                   <label className="text-sm font-medium flex items-center gap-2 text-foreground">
                     <Mail className="h-4 w-4 text-primary" />
                     邮箱 *
@@ -139,7 +138,7 @@ export function DemoBookingDialog({ open, onOpenChange }: DemoBookingDialogProps
                 </div>
 
                 {/* Phone */}
-                <div className="space-y-2 animate-fadeInUp" style={{ animationDelay: '200ms' }}>
+                <div className="space-y-2 animate-fadeInUp">
                   <label className="text-sm font-medium flex items-center gap-2 text-foreground">
                     <Phone className="h-4 w-4 text-primary" />
                     电话 *
@@ -156,7 +155,7 @@ export function DemoBookingDialog({ open, onOpenChange }: DemoBookingDialogProps
                 </div>
 
                 {/* Company */}
-                <div className="space-y-2 animate-fadeInUp" style={{ animationDelay: '250ms' }}>
+                <div className="space-y-2 animate-fadeInUp" >
                   <label className="text-sm font-medium flex items-center gap-2 text-foreground">
                     <Building2 className="h-4 w-4 text-primary" />
                     公司名称
@@ -172,12 +171,12 @@ export function DemoBookingDialog({ open, onOpenChange }: DemoBookingDialogProps
                 </div>
 
                 {/* Description */}
-                <p className="text-xs text-muted-foreground mt-4 animate-fadeInUp" style={{ animationDelay: '300ms' }}>
+                <p className="text-xs text-muted-foreground mt-4 animate-fadeInUp" >
                   我们将在收到您的信息后，及时安排演示。感谢您的关注！
                 </p>
 
                 {/* Buttons */}
-                <div className="flex gap-3 pt-4 animate-fadeInUp" style={{ animationDelay: '350ms' }}>
+                <div className="flex gap-3 pt-4 animate-fadeInUp">
                   <Button
                     type="button"
                     variant="outline"

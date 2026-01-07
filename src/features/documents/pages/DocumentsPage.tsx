@@ -234,7 +234,7 @@ export default function DocumentsPage() {
           </div>
 
           {/* Upload Section */}
-          <Card className="animate-fadeInUp" style={{ animationDelay: '80ms' }}>
+          <Card className="animate-fadeInUp">
             <CardContent className="pt-6">
               <div
                 className="border-2 border-dashed border-primary/30 rounded-xl p-6 md:p-8 text-center hover:border-primary/50 hover:bg-primary/5 transition-all duration-200 cursor-pointer group"
@@ -300,7 +300,6 @@ export default function DocumentsPage() {
                     <Card
                         key={doc.id}
                         className="group overflow-hidden animate-scaleIn transition-all duration-300 hover:shadow-enhance hover:-translate-y-1"
-                        style={{ animationDelay: `${240 + idx * 60}ms` }}
                     >
                       <CardContent className="pt-5 relative">
                         {/* Status Indicator */}

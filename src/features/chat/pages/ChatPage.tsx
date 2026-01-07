@@ -277,14 +277,13 @@ export default function ChatPage() {
               </div>
             ) : (
               <div className="space-y-4 p-3 md:p-4">
-                {messages.map((msg, idx) => (
+                {messages.map((msg) => (
                   <div
                     key={msg.id}
                     className={cn(
                       'flex animate-fadeInUp gap-3 md:gap-4',
                       msg.role === 'user' ? 'justify-end' : 'justify-start'
                     )}
-                    style={{ animationDelay: `${idx * 40}ms` }}
                   >
                     {msg.role === 'assistant' && (
                       <div className="h-7 md:h-8 w-7 md:w-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
