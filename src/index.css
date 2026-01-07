@@ -142,8 +142,8 @@
   /* 页面加载入场 */
   @keyframes pageEnter {
     from {
-      opacity: 1;
-      /* transform: translateY(4px);   */
+      opacity: 0;
+      transform: translateY(8px);  /* 轻微下滑 */
     }
     to {
       opacity: 1;
@@ -154,8 +154,8 @@
   /* 内容向上进入（卡片、列表项） */
   @keyframes fadeInUp {
     from {
-      opacity: 1;
-      /* transform: translateY(3px);   */
+      opacity: 0;
+      transform: translateY(6px);  /* 减少到 6px - 更微妙 */
     }
     to {
       opacity: 1;
@@ -166,8 +166,8 @@
   /* 内容向下进入（标题、头部） */
   @keyframes fadeInDown {
     from {
-      opacity: 1;
-      /* transform: translateY(-2px);  */
+      opacity: 0;
+      transform: translateY(-4px);  /* 对称设计 */
     }
     to {
       opacity: 1;
@@ -178,7 +178,7 @@
   /* 缩放进入（模态框、对话框） */
   @keyframes scaleIn {
     from {
-      opacity: 1;
+      opacity: 0;
       transform: scale(0.92);  /* 92% → 100% */
     }
     to {
@@ -190,7 +190,7 @@
   /* 淡入（图片、背景） */
   @keyframes fadeIn {
     from {
-      opacity: 1;
+      opacity: 0;
     }
     to {
       opacity: 1;
@@ -200,7 +200,7 @@
   /* 左侧滑入（侧边栏） */
   @keyframes slideInLeft {
     from {
-      opacity: 1;
+      opacity: 0;
       transform: translateX(-12px);
     }
     to {
@@ -212,7 +212,7 @@
   /* 右侧滑入（通知、工具栏） */
   @keyframes slideInRight {
     from {
-      opacity: 1;
+      opacity: 0;
       transform: translateX(12px);
     }
     to {
